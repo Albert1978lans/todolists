@@ -1,11 +1,13 @@
-import {ChangeEvent, KeyboardEvent,  useState} from "react";
+import React, {ChangeEvent, KeyboardEvent,  useState} from "react";
 
 type EditableSpanePropsType = {
     title: string
     changeTitle: (title: string) => void
 }
 
-function EditableSpane(props: EditableSpanePropsType) {
+const EditableSpane = React.memo( (props: EditableSpanePropsType) => {
+
+    console.log('EditableSpane')
 
     const [edit, setEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
@@ -47,5 +49,6 @@ function EditableSpane(props: EditableSpanePropsType) {
         </>
     )
 }
+)
 
 export default EditableSpane

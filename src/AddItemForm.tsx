@@ -5,7 +5,9 @@ type addItemFormPropsType = {
     addItem: (titleValue: string) => void
 }
 
-function AddItemForm(props: addItemFormPropsType) {
+const AddItemForm = React.memo((props: addItemFormPropsType) => {
+
+    console.log('AddItemForm')
 
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
@@ -25,7 +27,10 @@ function AddItemForm(props: addItemFormPropsType) {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
+
         if (e.code === 'Enter') {
             addTitle(title)
         }
@@ -45,6 +50,6 @@ function AddItemForm(props: addItemFormPropsType) {
             </button>
             {error && <div className='error-message'>This requared</div>}
         </div>)
-}
+})
 
 export default AddItemForm

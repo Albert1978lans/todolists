@@ -1,6 +1,6 @@
 import React, {useReducer} from 'react';
 import './App.css';
-import Todolist, {TaskType} from "./Todolist";
+import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 import AddItemForm from "./AddItemForm";
 import {
@@ -14,15 +14,15 @@ import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksRed
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+// export type TodolistType = {
+//     id: string
+//     title: string
+//     filter: FilterValuesType
+// }
+//
+// export type TasksStateType = {
+//     [key: string]: Array<TaskType>
+// }
 
 function AppWithReducers() {
 
