@@ -1,11 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 
-type addItemFormPropsType = {
+type AddItemFormPropsType = {
     addItem: (titleValue: string) => void
 }
 
-const AddItemForm = React.memo((props: addItemFormPropsType) => {
+const AddItemForm = React.memo((props: AddItemFormPropsType) => {
 
     console.log('AddItemForm')
 
