@@ -16,6 +16,8 @@ root.render(
         <Provider store={store}>
             <AppWithRedux/>
         </Provider>
+        {/*<App/>*/}
+        {/*<AppWithReducers/>*/}
     </React.StrictMode>
 );
 

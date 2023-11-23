@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./Todolist";
+import {Todolist} from "./Todolist";
 import AddItemForm from "./AddItemForm";
 import {
     addTodolistAC,
@@ -11,6 +11,7 @@ import {
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -42,8 +43,8 @@ function AppWithRedux() {
         dispatch(action)
     }, [dispatch])
 
-    const changeTaskStatus = useCallback( (todolistId: string, taskId: string, newIsDone: boolean) => {
-        const action = changeTaskStatusAC(taskId, newIsDone, todolistId)
+    const changeTaskStatus = useCallback( (todolistId: string, taskId: string, newStatus: TaskStatuses) => {
+        const action = changeTaskStatusAC(taskId, newStatus, todolistId)
         dispatch(action)
     }, [dispatch])
     const changeFilter = useCallback( (value: FilterValuesType, todolistId: string) => {

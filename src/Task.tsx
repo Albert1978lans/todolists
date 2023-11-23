@@ -1,13 +1,13 @@
 import React, {ChangeEvent} from "react";
 import EditableSpane from "./EditableSpane";
-import {TaskType} from "./Todolist";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
 
 type TaskPropsType = {
     todolistId: string
     task: TaskType
     removeTask: (todolistId: string, taskId: string) => void
-    changeTaskStatus: (todolistId: string, taskId: string, newIsDone: boolean) => void
+    changeTaskStatus: (todolistId: string, taskId: string, newStatus: TaskStatuses) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
 }
 
@@ -15,17 +15,19 @@ export const Task = React.memo((props:TaskPropsType) => {
 
     const removeTask = () => props.removeTask(props.todolistId, props.task.id)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeTaskStatus(props.todolistId, props.task.id, e.currentTarget.checked)
+        e.currentTarget.checked
+            ? props.changeTaskStatus(props.todolistId, props.task.id, TaskStatuses.Completed)
+            :props.changeTaskStatus(props.todolistId, props.task.id, TaskStatuses.New)
     }
     const changeTaskTitle = (title: string) => {
         props.changeTaskTitle(props.todolistId, props.task.id, title)
     }
 
     return (
-        <li key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
+        <li key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
             <input
                 type="checkbox"
-                checked={props.task.isDone}
+                checked={props.task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
             <EditableSpane title={props.task.title} changeTitle={changeTaskTitle}/>
