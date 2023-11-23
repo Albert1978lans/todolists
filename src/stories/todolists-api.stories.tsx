@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {TaskType, todolistsAPI, UpdateRequestType} from "../api/todolists-api";
+import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 
 
 export default {
@@ -149,6 +149,10 @@ export const GetTasks = () => {
                                 <b style={{color: 'red'}}> title: </b>{t.title}
                                 <b style={{color: 'red'}}> status: </b>{t.status}
                                 <b style={{color: 'red'}}> order: </b>{t.order}
+                                <b style={{color: 'red'}}> priority: </b>{t.priority}
+                                <b style={{color: 'red'}}> startDate: </b>{t.startDate}
+                                <b style={{color: 'red'}}> description: </b>{t.description}
+                                <b style={{color: 'red'}}> deadline: </b>{t.deadline}
                             </div>
                         })
                         : 'тасок ещё нет'
@@ -210,20 +214,27 @@ export const CreateTask = () => {
 export const UpdateTask = () => {
 
     const [state, setState] = useState<any>(null)
+
     const [todolistID, setTodolistID] = useState<string>('')
     const [taskID, setTaskID] = useState<string>('')
+
     const [title, setTitle] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [status, setStatus] = useState<number>(0)
+    const [priority, setPriority] = useState<number>(0)
+    const [startDate, setStartDate] = useState<string>('')
+    const [deadline, setDeadline] = useState<string>('')
 
     const updateTask = () => {
-        const changedTask: UpdateRequestType = {
+        const model: UpdateTaskModelType = {
             title: title,
-            description: '',
-            status: 0,
-            priority: 0,
-            startDate: '',
-            deadline: '',
+            description: description,
+            status: status,
+            priority: priority,
+            startDate: startDate,
+            deadline: deadline,
         }
-        todolistsAPI.updateTask(todolistID, taskID, changedTask)
+        todolistsAPI.updateTask(todolistID, taskID, model)
             .then((res) => {
                 setState(res.data)
             })
@@ -233,9 +244,15 @@ export const UpdateTask = () => {
             <input placeholder='todolistID' value={todolistID} onChange={(e) => setTodolistID(e.currentTarget.value)}/>
             <input placeholder='taskID' value={taskID} onChange={(e) => setTaskID(e.currentTarget.value)}/>
             <input placeholder='title' value={title} onChange={(e) => setTitle(e.currentTarget.value)}/>
+            <input placeholder='description' value={description} onChange={(e) => setDescription(e.currentTarget.value)}/>
+            <input placeholder='status' value={status} onChange={(e) => setStatus(+e.currentTarget.value)}/>
+            <input placeholder='priority' value={priority} onChange={(e) => setPriority(+e.currentTarget.value)}/>
+            <input placeholder='startDate' value={startDate} onChange={(e) => setStartDate(e.currentTarget.value)}/>
+            <input placeholder='deadline' value={deadline} onChange={(e) => setDeadline(e.currentTarget.value)}/>
             <button onClick={updateTask}>CreateTask</button>
         </div>
         {JSON.stringify(state)}
     </div>
 
 }
+
