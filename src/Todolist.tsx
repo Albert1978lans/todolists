@@ -1,10 +1,12 @@
 import './App.css';
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import AddItemForm from './AddItemForm'
 import EditableSpane from "./EditableSpane";
 import {Task} from "./Task";
 import {FilterValuesType} from "./state/todolists-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {useAppDispatch} from "./state/hooks";
+import {fetchTasksTC} from "./state/tasks-reducer";
 
 
 type TodolistPropsType = {
@@ -24,6 +26,12 @@ type TodolistPropsType = {
 export const Todolist = React.memo((props: TodolistPropsType) => {
 
         console.log('Todolist')
+
+        const dispatch = useAppDispatch()
+
+        useEffect(() => {
+            dispatch(fetchTasksTC(props.todolistId))
+        })
 
         const removeTodolist = (todolistId: string) => {
             props.removeTodolist(todolistId)
@@ -49,7 +57,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
         return (
 
-            <div>
+            <div className={'Todolist'}>
                 <h3>
                     <EditableSpane title={props.title} changeTitle={changeTodolistTitle}/>
                     <button onClick={() => removeTodolist(props.todolistId)}>X</button>

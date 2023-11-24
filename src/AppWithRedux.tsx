@@ -1,37 +1,31 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import AddItemForm from "./AddItemForm";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
+    changeTodolistTitleAC, fetchTodolistsTC,
+    removeTodolistAC
 } from "./state/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {useAppDispatch, useAppSelector} from "./state/hooks";
+import {TaskStatuses} from "./api/todolists-api";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
 
 function AppWithRedux() {
 
     console.log('AppWithRedux')
 
-    const  dispatch = useDispatch()
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const  dispatch = useAppDispatch()
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector(state => state.tasks)
+
+    useEffect(() => {
+       dispatch(fetchTodolistsTC())
+    }, [])
 
     const addTask = useCallback(  (todolistId: string, title: string) => {
         const action = addTaskAC(title, todolistId)

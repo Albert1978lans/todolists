@@ -65,7 +65,7 @@ export type UpdateTaskModelType = {
 
 export const todolistsAPI = {
     getTodolist() {
-        return instance.get<ResponseType>('todo-lists')
+        return instance.get<Array<TodolistType>>('todo-lists')
     },
     createTodolist(title: string) {
         return instance.post<ResponseType<{item: TodolistType}>>('todo-lists',{title: title})

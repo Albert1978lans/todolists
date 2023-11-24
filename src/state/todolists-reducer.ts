@@ -1,6 +1,8 @@
 
 import {v1} from "uuid";
-import {TodolistType} from "../api/todolists-api";
+import {todolistsAPI, TodolistType} from "../api/todolists-api";
+import {Dispatch} from "redux";
+import {AppActionsType, AppDispatch, AppThunk} from "./store";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -25,12 +27,17 @@ export type ChangeTodolistFilterActionType = {
     id: string,
     filter: FilterValuesType
 }
+export type SetTodolistActionType = {
+    type: 'SET-TODOLISTS'
+    todolists: Array<TodolistType>
+}
 
-type ActionType =
+export type TodolistsActionsType =
     RemoveTodolistActionType |
     AddTodolistActionType |
     ChangeTodolistTitleActionType |
-    ChangeTodolistFilterActionType
+    ChangeTodolistFilterActionType |
+    SetTodolistActionType
 
 export const todolistId1 = v1()
 export const todolistId2 = v1()
@@ -40,7 +47,7 @@ const initialeState: Array<TodolistDomainType> = [
     // {id: todolistId2, title: 'What to buy', filter: 'all'},
 ]
 
-export const todolistsReducer = (state: Array<TodolistDomainType> = initialeState, action: ActionType): Array<TodolistDomainType> => {
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialeState, action: TodolistsActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
 
         case 'REMOVE-TODOLIST':
@@ -58,12 +65,18 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialeStat
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
 
+        case "SET-TODOLISTS":
+            return action.todolists.map(tl => {
+                return {...tl, filter: "all"}
+            })
+
         default:
             return state
 
     }
 }
 
+// Action
 export const removeTodolistAC = (todolistId: string):RemoveTodolistActionType => {
     return {
         type: "REMOVE-TODOLIST",
@@ -92,5 +105,23 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
         type: "CHANGE-TODOLIST-FILTER",
         id: todolistId,
         filter: filter
+    }
+}
+export const setTodolistAC = (todolist: Array<TodolistType>):SetTodolistActionType => {
+    return {
+        type: 'SET-TODOLISTS',
+        todolists: todolist
+    }
+}
+
+// Thunk
+
+export const fetchTodolistsTC = (): AppThunk => {
+    return(dispatch: Dispatch<AppActionsType>) => {
+        todolistsAPI.getTodolist()
+            .then(res => {
+                const action = setTodolistAC(res.data)
+                dispatch(action)
+            })
     }
 }
