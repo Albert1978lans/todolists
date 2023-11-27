@@ -2,7 +2,6 @@ import {v1} from "uuid";
 import {
     AddTodolistActionType,
     RemoveTodolistActionType,
-    setTodolistAC,
     SetTodolistActionType
 } from "./todolists-reducer";
 import {TaskStatuses, TaskType, todolistsAPI} from "../api/todolists-api";
@@ -125,7 +124,7 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
     }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
+export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActionType => {
     return {
         type: 'REMOVE-TASK',
         taskId: taskId,
@@ -158,6 +157,18 @@ export const fetchTasksTC = (todolistID: string): AppThunk => {
             .then(res => {
                 const action = setTasksAC(todolistID, res.data.items)
                 dispatch(action)
+            })
+    }
+}
+
+export const removeTaskTC = (todolistID: string, taskID: string): AppThunk => {
+    return (dispatch: Dispatch<AppActionsType>) => {
+        todolistsAPI.deleteTask(todolistID, taskID)
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(removeTaskAC(todolistID, taskID))
+                }
+
             })
     }
 }

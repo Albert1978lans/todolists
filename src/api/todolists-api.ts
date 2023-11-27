@@ -77,7 +77,7 @@ export const todolistsAPI = {
         return instance.put<ResponseType>(`todo-lists/${todolistID}`,{title: title})
     },
     getTasks(todolistID: string) {
-        return instance.get<ResponseTaskType>(`todo-lists/${todolistID}/tasks?count=20`)
+        return instance.get<ResponseTaskType>(`todo-lists/${todolistID}/tasks`)
     },
     deleteTask(todolistID: string, taskID: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
@@ -89,3 +89,5 @@ export const todolistsAPI = {
         return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistID}/tasks/${taskID}`, model)
     },
 }
+
+// todo-lists/{todolistId}/tasks

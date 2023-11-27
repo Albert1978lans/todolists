@@ -31,7 +31,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
         useEffect(() => {
             dispatch(fetchTasksTC(props.todolistId))
-        })
+        },[])
 
         const removeTodolist = (todolistId: string) => {
             props.removeTodolist(todolistId)

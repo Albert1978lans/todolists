@@ -2,7 +2,7 @@
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppActionsType, AppDispatch, AppThunk} from "./store";
+import {AppActionsType, AppThunk} from "./store";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -77,6 +77,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialeStat
 }
 
 // Action
+
 export const removeTodolistAC = (todolistId: string):RemoveTodolistActionType => {
     return {
         type: "REMOVE-TODOLIST",
