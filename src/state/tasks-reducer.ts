@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {
     AddTodolistActionType,
     RemoveTodolistActionType,
@@ -22,9 +21,9 @@ type RemoveTaskActionType = {
 
 type AddTaskActionType = {
     type: 'ADD-TASK'
-    title: string
-    todolistId: string
+    task:TaskType
 }
+
 
 type ChangeTaskStatusActionType = {
     type: 'CHANGE-TASK-STATUS'
@@ -72,16 +71,12 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
         case "REMOVE-TASK":
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)
+                [action.todolistId]: state[action.todolistId].filter(t => t.id != action.taskId)
             }
         case "ADD-TASK":
             return {
                 ...state,
-                [action.todolistId]: [
-                    {id: v1(), title: action.title, status: TaskStatuses.New, order: 0, description: '', addedDate: '',
-                         startDate: '', deadline: '', priority: 0, todoListId: action.todolistId},
-                    ...state[action.todolistId]
-                ]
+                [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
             }
         case "CHANGE-TASK-STATUS":
             return {
@@ -134,8 +129,8 @@ export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActi
 
 // Action
 
-export const addTaskAC = (title: string, todolistId: string): AddTaskActionType => {
-    return {type: 'ADD-TASK', title, todolistId}
+export const addTaskAC = (task: TaskType): AddTaskActionType => {
+    return {type: 'ADD-TASK', task}
 }
 
 export const changeTaskStatusAC = (taskId: string, newStatus: TaskStatuses, todolistId: string): ChangeTaskStatusActionType => {
@@ -172,4 +167,16 @@ export const removeTaskTC = (todolistID: string, taskID: string): AppThunk => {
             })
     }
 }
+export const addTaskTC = (todolistID: string, title: string): AppThunk => {
+    return (dispatch: Dispatch<AppActionsType>) => {
+        todolistsAPI.createTask(todolistID, title)
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(addTaskAC(res.data.data.item))
+                }
+
+            })
+    }
+}
+
 

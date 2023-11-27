@@ -15,15 +15,6 @@ import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-// export type TodolistType = {
-//     id: string
-//     title: string
-//     filter: FilterValuesType
-// }
-//
-// export type TasksStateType = {
-//     [key: string]: Array<TaskType>
-// }
 
 function AppWithReducers() {
 
@@ -49,7 +40,20 @@ function AppWithReducers() {
     })
 
     function addTask(todolistId: string, title: string) {
-        const action = addTaskAC(title, todolistId)
+        const action = addTaskAC(
+            {
+                id : v1(),
+                title : title,
+                description : '',
+                todoListId : todolistId,
+                order : 0,
+                status : TaskStatuses.New,
+                priority : TaskPriorities.Low,
+                startDate : '',
+                deadline : '',
+                addedDate : ''
+            }
+        )
         dispatchToTasksReducers(action)
     }
 
