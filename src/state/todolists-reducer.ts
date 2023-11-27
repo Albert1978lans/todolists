@@ -42,10 +42,7 @@ export type TodolistsActionsType =
 export const todolistId1 = v1()
 export const todolistId2 = v1()
 
-const initialeState: Array<TodolistDomainType> = [
-    // {id: todolistId1, title: 'What to learn', filter: 'all'},
-    // {id: todolistId2, title: 'What to buy', filter: 'all'},
-]
+const initialeState: Array<TodolistDomainType> = []
 
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialeState, action: TodolistsActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
@@ -122,6 +119,16 @@ export const fetchTodolistsTC = (): AppThunk => {
         todolistsAPI.getTodolist()
             .then(res => {
                 const action = setTodolistAC(res.data)
+                dispatch(action)
+            })
+    }
+}
+
+export const removeTodolistsTC = (todolistId: string): AppThunk => {
+    return(dispatch: Dispatch<AppActionsType>) => {
+        todolistsAPI.deleteTodolist(todolistId)
+            .then(res => {
+                const action = removeTodolistAC(todolistId)
                 dispatch(action)
             })
     }
