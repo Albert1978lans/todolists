@@ -76,7 +76,12 @@ function AppWithReducers() {
         dispatchToTasksReducers(action)
     }
     const addTodolist = (todolistTitle: string) => {
-        const action = addTodolistAC(todolistTitle)
+        const action = addTodolistAC({
+            id: v1(),
+            title: todolistTitle,
+            addedDate: '',
+            order: 0
+        })
         dispatchToTodolistsReducers(action)
         dispatchToTasksReducers(action)
     }

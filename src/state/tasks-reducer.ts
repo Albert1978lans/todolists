@@ -91,7 +91,7 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
         case "ADD-TODOLIST":
             return {
                 ...state,
-                [action.todolistId]: [],
+                [action.todolist.id]: [],
             }
         case "REMOVE-TODOLIST": {
             let stateCopy = {...state}
@@ -119,6 +119,8 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
     }
 }
 
+// Action
+
 export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActionType => {
     return {
         type: 'REMOVE-TASK',
@@ -126,8 +128,6 @@ export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActi
         todolistId: todolistId
     }
 }
-
-// Action
 
 export const addTaskAC = (task: TaskType): AddTaskActionType => {
     return {type: 'ADD-TASK', task}
