@@ -55,11 +55,11 @@ type ResponseTaskType = {
 }
 export type UpdateTaskModelType = {
     title: string
-    description: string
+    description: string | null
     status: number
-    priority : number,
-    startDate : string | null,
-    deadline : string | null,
+    priority : number
+    startDate : string | null
+    deadline : string | null
 }
 
 
@@ -90,4 +90,3 @@ export const todolistsAPI = {
     },
 }
 
-// todo-lists/{todolistId}/tasks
