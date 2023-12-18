@@ -1,10 +1,8 @@
 import {
     addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
     removeTaskAC, setTasksAC,
     tasksReducer,
-    TasksStateType
+    TasksStateType, updateTaskAC
 } from "./tasks-reducer";
 import {addTodolistAC, removeTodolistAC, setTodolistAC} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
@@ -63,7 +61,7 @@ test('correct task should be added to correct array', () => {
 
 test('status of specified task should be changed', () => {
 
-    const action = changeTaskStatusAC('2', TaskStatuses.New, 'todolistId2')
+    const action = updateTaskAC('2', {status: TaskStatuses.New}, 'todolistId2')
     const endState = tasksReducer(startState, action)
 
     expect(endState['todolistId2'][1].status).toBe(TaskStatuses.New)
@@ -72,7 +70,7 @@ test('status of specified task should be changed', () => {
 
 test('title of specified task should be changed', () => {
 
-    const action = changeTaskTitleAC('2', 'Milkyway', 'todolistId2')
+    const action = updateTaskAC('2', {title: 'Milkyway'}, 'todolistId2')
     const endState = tasksReducer(startState, action)
 
     expect(endState['todolistId2'][1].title).toBe('Milkyway')

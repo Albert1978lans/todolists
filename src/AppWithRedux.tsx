@@ -4,16 +4,12 @@ import {Todolist} from "./Todolist";
 import AddItemForm from "./AddItemForm";
 import {
     addTodolistTC,
-    changeTodolistFilterAC,
-    changeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC,
+    changeTodolistFilterAC, changeTodolistTitleTC, fetchTodolistsTC,
     removeTodolistTC
 } from "./state/todolists-reducer";
 import {
     addTaskTC,
-    changeTaskStatusAC,
-    changeTaskStatusTC,
-    changeTaskTitleAC,
-    removeTaskTC,
+    removeTaskTC, updateTaskTC,
 } from "./state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "./state/hooks";
 import {TaskStatuses} from "./api/todolists-api";
@@ -43,13 +39,15 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeTaskStatus = useCallback((todolistId: string, taskId: string, newStatus: TaskStatuses) => {
-        const thunk = changeTaskStatusTC(taskId, newStatus, todolistId)
+        const thunk = updateTaskTC(taskId, {status: newStatus}, todolistId)
         dispatch(thunk)
     }, [dispatch])
+
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         const action = changeTodolistFilterAC(todolistId, value)
         dispatch(action)
     }, [dispatch])
+
     const removeTodolist = useCallback((todolistId: string) => {
         const thunk = removeTodolistTC(todolistId)
         dispatch(thunk)
@@ -61,9 +59,10 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeTaskTitle = useCallback((todolistId: string, taskId: string, title: string) => {
-        const action = changeTaskTitleAC(taskId, title, todolistId)
+        const action = updateTaskTC(taskId, {title: title}, todolistId)
         dispatch(action)
     }, [dispatch])
+
     const changeTodolistTitle = useCallback((todolistId: string, title: string) => {
         const thunk = changeTodolistTitleTC(todolistId, title)
         dispatch(thunk)
