@@ -13,6 +13,8 @@ import {
 } from "./state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "./state/hooks";
 import {TaskStatuses} from "./api/todolists-api";
+import {LinearProgress} from "@mui/material";
+import {ErrorSnackbar} from "./ErrorSnackbar";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -70,25 +72,29 @@ function AppWithRedux() {
 
     return (
         <div className='App'>
-            <AddItemForm addItem={addTodolist}/>
-            {todolists.map(tl => {
+            <ErrorSnackbar/>
+            {/*<LinearProgress/>*/}
+            <div className='App-container'>
 
-                return <Todolist
-                    key={tl.id}
-                    todolistId={tl.id}
-                    title={tl.title}
-                    tasks={tasks[tl.id]}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeTaskStatus}
-                    valueFilter={tl.filter}
-                    removeTodolist={removeTodolist}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTodolistTitle={changeTodolistTitle}
-                />
-            })}
+                <AddItemForm addItem={addTodolist}/>
+                {todolists.map(tl => {
 
+                    return <Todolist
+                        key={tl.id}
+                        todolistId={tl.id}
+                        title={tl.title}
+                        tasks={tasks[tl.id]}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        addTask={addTask}
+                        changeTaskStatus={changeTaskStatus}
+                        valueFilter={tl.filter}
+                        removeTodolist={removeTodolist}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={changeTodolistTitle}
+                    />
+                })}
+            </div>
         </div>
     );
 }

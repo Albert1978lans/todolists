@@ -6,6 +6,7 @@ import {
 import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {AppActionsType, AppRootStateType, AppThunk} from "./store";
 import {Dispatch} from "redux";
+import {setErrorAC} from "./app-reducer";
 
 
 export type TasksStateType = {
@@ -156,6 +157,12 @@ export const addTaskTC = (todolistID: string, title: string): AppThunk => {
             .then(res => {
                 if (res.data.resultCode === 0) {
                     dispatch(addTaskAC(res.data.data.item))
+                } else {
+                    if (res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setErrorAC('some error'))
+                    }
                 }
 
             })
