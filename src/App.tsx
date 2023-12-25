@@ -14,8 +14,8 @@ function App() {
     const todolistId2 = v1()
 
     const [todolists, setTodolists] = useState<Array<TodolistDomainType>>([
-        {id: todolistId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-        {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
+        {id: todolistId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
+        {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
     ])
     const [tasks, setTasks] = useState<TasksStateType>({
         [todolistId1]: [
@@ -60,7 +60,14 @@ function App() {
         delete tasks[todolistId]
     }
     const addTodolist = (todolistTitle: string) => {
-        const newTodolist: TodolistDomainType = {id: v1(), title: todolistTitle, filter: "all", addedDate: '', order: 0}
+        const newTodolist: TodolistDomainType = {
+            id: v1(),
+            title: todolistTitle,
+            filter: "all",
+            addedDate: '',
+            order: 0,
+            entityStatus: "idle"
+        }
         setTodolists([newTodolist, ...todolists])
         setTasks({...tasks, [newTodolist.id]: []})
     }
@@ -93,6 +100,7 @@ function App() {
                     removeTodolist={removeTodolist}
                     changeTaskTitle={changeTaskTitle}
                     changeTodolistTitle={changeTodolistTitle}
+                    entityStatus={tl.entityStatus}
                 />
             })}
 

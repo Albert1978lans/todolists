@@ -26,6 +26,7 @@ function AppWithRedux() {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
+    const status = useAppSelector(state => state.app.status)
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -73,7 +74,7 @@ function AppWithRedux() {
     return (
         <div className='App'>
             <ErrorSnackbar/>
-            {/*<LinearProgress/>*/}
+            {status === 'loading' && <LinearProgress/>}
             <div className='App-container'>
 
                 <AddItemForm addItem={addTodolist}/>
@@ -92,6 +93,7 @@ function AppWithRedux() {
                         removeTodolist={removeTodolist}
                         changeTaskTitle={changeTaskTitle}
                         changeTodolistTitle={changeTodolistTitle}
+                        entityStatus={tl.entityStatus}
                     />
                 })}
             </div>

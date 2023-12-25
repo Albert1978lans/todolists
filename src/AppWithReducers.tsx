@@ -22,8 +22,8 @@ function AppWithReducers() {
     const todolistId2 = v1()
 
     const [todolists, dispatchToTodolistsReducers] = useReducer(todolistsReducer,[
-        {id: todolistId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-        {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
+        {id: todolistId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
+        {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
     ])
     const [tasks, dispatchToTasksReducers] = useReducer(tasksReducer,{
 
@@ -117,6 +117,7 @@ function AppWithReducers() {
                     removeTodolist={removeTodolist}
                     changeTaskTitle={changeTaskTitle}
                     changeTodolistTitle={changeTodolistTitle}
+                    entityStatus={tl.entityStatus}
                 />
             })}
 
