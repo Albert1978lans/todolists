@@ -23,15 +23,19 @@ type TodolistPropsType = {
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
     changeTodolistTitle: (todolistId: string, title: string) => void
     entityStatus: statusType
+    demo?: boolean
 }
 
-export const Todolist = React.memo((props: TodolistPropsType) => {
+export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) => {
 
         console.log('Todolist')
 
         const dispatch = useAppDispatch()
 
         useEffect(() => {
+            if (demo) {
+                return
+            }
             dispatch(fetchTasksTC(props.todolistId))
         },[])
 

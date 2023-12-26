@@ -12,5 +12,5 @@ export default {
 
 
 export const AppWithReduxBaseExample = (props: any) => {
-    return <AppWithRedux/>
+    return <AppWithRedux demo={true}/>
 }

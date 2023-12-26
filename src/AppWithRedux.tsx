@@ -18,8 +18,11 @@ import {ErrorSnackbar} from "./ErrorSnackbar";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
+type PropsType = {
+    demo?: boolean
+}
 
-function AppWithRedux() {
+function AppWithRedux({demo=false, ...props} : PropsType) {
 
     console.log('AppWithRedux')
 
@@ -29,6 +32,7 @@ function AppWithRedux() {
     const status = useAppSelector(state => state.app.status)
 
     useEffect(() => {
+        if (demo) return
         dispatch(fetchTodolistsTC())
     }, [])
 
@@ -94,6 +98,7 @@ function AppWithRedux() {
                         changeTaskTitle={changeTaskTitle}
                         changeTodolistTitle={changeTodolistTitle}
                         entityStatus={tl.entityStatus}
+                        demo={demo}
                     />
                 })}
             </div>
