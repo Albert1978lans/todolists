@@ -32,10 +32,10 @@ export const appReducer = (state: InitialStateType = initialState, action: UiAct
     }
 }
 
-export const setErrorAC = (error: string | null): setErrorType => {
+export const setAppErrorAC = (error: string | null): setErrorType => {
     return {type: 'APP/SET-ERROR', error}
 }
 
-export const setStatusAC = (status: statusType): setStatusType => {
+export const setAppStatusAC = (status: statusType): setStatusType => {
     return {type: 'APP/SET-STATUS', status}
 }

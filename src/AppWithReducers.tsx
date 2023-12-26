@@ -106,18 +106,15 @@ function AppWithReducers() {
                 }
                 return <Todolist
                     key={tl.id}
-                    todolistId={tl.id}
-                    title={tl.title}
+                    todolist={tl}
                     tasks={tasksForTodolists}
                     removeTask={removeTask}
                     changeFilter={changeFilter}
                     addTask={addTask}
                     changeTaskStatus={changeTaskStatus}
-                    valueFilter={tl.filter}
                     removeTodolist={removeTodolist}
                     changeTaskTitle={changeTaskTitle}
                     changeTodolistTitle={changeTodolistTitle}
-                    entityStatus={tl.entityStatus}
                 />
             })}
 

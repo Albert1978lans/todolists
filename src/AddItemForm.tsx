@@ -3,9 +3,10 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddItemFormPropsType = {
     addItem: (titleValue: string) => void
+    disabled?: boolean
 }
 
-const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+const AddItemForm = React.memo(({addItem, disabled=false}: AddItemFormPropsType) => {
 
     console.log('AddItemForm')
 
@@ -14,7 +15,7 @@ const AddItemForm = React.memo((props: AddItemFormPropsType) => {
 
     const addTitle = (titleValue: string) => {
         if (titleValue.trim() !== '') {
-            props.addItem(titleValue.trim())
+            addItem(titleValue.trim())
             setTitle('')
         }
         else {
@@ -43,9 +44,11 @@ const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 onChange={newTitleOnChangeHandler}
                 onKeyPress={onKeyPressHandler}
                 className={error ? 'error' : ''}
+                disabled={disabled}
             />
             <button
                 onClick={() => addTitle(title)}
+                disabled={disabled}
             >+
             </button>
             {error && <div className='error-message'>This requared</div>}

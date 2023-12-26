@@ -89,18 +89,15 @@ function App() {
             {todolists.map(tl => {
                 return <Todolist
                     key={tl.id}
-                    todolistId={tl.id}
-                    title={tl.title}
+                    todolist={tl}
                     tasks={tasks[tl.id]}
                     removeTask={removeTask}
                     changeFilter={changeFilter}
                     addTask={addTask}
                     changeTaskStatus={changeTaskStatus}
-                    valueFilter={tl.filter}
                     removeTodolist={removeTodolist}
                     changeTaskTitle={changeTaskTitle}
                     changeTodolistTitle={changeTodolistTitle}
-                    entityStatus={tl.entityStatus}
                 />
             })}
 
