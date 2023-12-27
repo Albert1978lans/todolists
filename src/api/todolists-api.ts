@@ -42,7 +42,7 @@ export type TaskType = {
     deadline : string | null,
     addedDate : string
 }
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     data: D,
     messages: string[],
     fieldsErrors: string[],

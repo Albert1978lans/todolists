@@ -10,16 +10,16 @@ const initialState: InitialStateType = {
     error: null
 }
 
-type setErrorType = {
+export type setAppErrorActionType = {
     type: 'APP/SET-ERROR'
     error: string | null
 }
-type setStatusType = {
+export type setAppStatusActionType = {
     type: 'APP/SET-STATUS'
     status: statusType
 }
 
-export type UiActionsType = setErrorType | setStatusType
+export type UiActionsType = setAppErrorActionType | setAppStatusActionType
 
 export const appReducer = (state: InitialStateType = initialState, action: UiActionsType): InitialStateType => {
     switch (action.type) {
@@ -32,10 +32,10 @@ export const appReducer = (state: InitialStateType = initialState, action: UiAct
     }
 }
 
-export const setAppErrorAC = (error: string | null): setErrorType => {
+export const setAppErrorAC = (error: string | null): setAppErrorActionType => {
     return {type: 'APP/SET-ERROR', error}
 }
 
-export const setAppStatusAC = (status: statusType): setStatusType => {
+export const setAppStatusAC = (status: statusType): setAppStatusActionType => {
     return {type: 'APP/SET-STATUS', status}
 }
