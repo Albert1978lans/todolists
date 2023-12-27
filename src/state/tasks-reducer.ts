@@ -171,6 +171,10 @@ export const addTaskTC = (todolistID: string, title: string): AppThunk => {
                 }
 
             })
+            .catch(error => {
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC(error.message))
+            })
     }
 }
 
@@ -186,6 +190,7 @@ export type UpdateDomainTaskModelType = {
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk => {
     return (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
 
+        dispatch(setAppStatusAC('loading'))
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
 
@@ -208,8 +213,20 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             .then(res => {
                 if (res.data.resultCode === 0) {
                     dispatch(updateTaskAC(taskId, model, todolistId))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    if (res.data.messages.length) {
+                        dispatch(setAppErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setAppErrorAC('some error'))
+                    }
+                    dispatch(setAppStatusAC('failed'))
                 }
 
+            })
+            .catch(error => {
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC(error.message))
             })
     }
 }
