@@ -7,6 +7,8 @@ import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {useAppDispatch} from "./state/hooks";
 import {fetchTasksTC} from "./state/tasks-reducer";
+import {Button, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
 type TodolistPropsType = {
@@ -62,7 +64,10 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
             <div className={'Todolist'}>
                 <h3>
                     <EditableSpane title={props.todolist.title} changeTitle={changeTodolistTitle}/>
-                    <button onClick={() => removeTodolist(props.todolist.id)} disabled={props.todolist.entityStatus === 'loading'}>X</button>
+                    {/*<button onClick={() => removeTodolist(props.todolist.id)} disabled={props.todolist.entityStatus === 'loading'}>X</button>*/}
+                    <IconButton aria-label="delete" onClick={() => removeTodolist(props.todolist.id)} disabled={props.todolist.entityStatus === 'loading'}>
+                        <Delete />
+                    </IconButton>
                 </h3>
                 <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
 
@@ -79,15 +84,17 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
                     )}
                 </ul>
                 <div>
-                    <button className={props.todolist.filter === 'all' ? 'active-button' : ""}
+                    <Button variant={props.todolist.filter === 'all' ? 'contained' : "text"}
                             onClick={onAllClickHandler}>All
-                    </button>
-                    <button className={props.todolist.filter === 'active' ? 'active-button' : ""}
+                    </Button>
+                    <Button variant={props.todolist.filter === 'active' ? 'contained' : "text"}
+                            color={'success'}
                             onClick={onActiveClickHandler}>Active
-                    </button>
-                    <button className={props.todolist.filter === 'completed' ? 'active-button' : ""}
+                    </Button>
+                    <Button variant={props.todolist.filter === 'completed' ? 'contained' : "text"}
+                            color={"secondary"}
                             onClick={onCompletedClickHandler}>Completed
-                    </button>
+                    </Button>
                 </div>
             </div>
 

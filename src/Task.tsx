@@ -1,6 +1,8 @@
 import React, {ChangeEvent} from "react";
 import EditableSpane from "./EditableSpane";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
 type TaskPropsType = {
@@ -24,14 +26,15 @@ export const Task = React.memo((props:TaskPropsType) => {
     }
 
     return (
-        <li key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
-            <input
-                type="checkbox"
+        <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+            <Checkbox
                 checked={props.task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
             <EditableSpane title={props.task.title} changeTitle={changeTaskTitle}/>
-            <button onClick={removeTask}>X</button>
-        </li>
+            <IconButton onClick={removeTask}>
+                <Delete />
+            </IconButton>
+        </div>
     )
 })

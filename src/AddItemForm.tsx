@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@mui/material";
+import {AddCircle} from "@mui/icons-material";
 
 
 type AddItemFormPropsType = {
@@ -6,7 +8,7 @@ type AddItemFormPropsType = {
     disabled?: boolean
 }
 
-const AddItemForm = React.memo(({addItem, disabled=false}: AddItemFormPropsType) => {
+const AddItemForm = React.memo(({addItem, disabled = false}: AddItemFormPropsType) => {
 
     console.log('AddItemForm')
 
@@ -17,9 +19,8 @@ const AddItemForm = React.memo(({addItem, disabled=false}: AddItemFormPropsType)
         if (titleValue.trim() !== '') {
             addItem(titleValue.trim())
             setTitle('')
-        }
-        else {
-            setError('error')
+        } else {
+            setError('This requared')
         }
     }
 
@@ -39,19 +40,21 @@ const AddItemForm = React.memo(({addItem, disabled=false}: AddItemFormPropsType)
 
     return (
         <div>
-            <input
-                value={title}
-                onChange={newTitleOnChangeHandler}
-                onKeyPress={onKeyPressHandler}
-                className={error ? 'error' : ''}
-                disabled={disabled}
+            <TextField label="Type value"
+                       value={title}
+                       onChange={newTitleOnChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       error={!!error}
+                       disabled={disabled}
+                       helperText={error}
             />
-            <button
+            <IconButton
                 onClick={() => addTitle(title)}
+                color={'secondary'}
                 disabled={disabled}
-            >+
-            </button>
-            {error && <div className='error-message'>This requared</div>}
+                size={"small"}
+            ><AddCircle/>
+            </IconButton>
         </div>)
 })
 

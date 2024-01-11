@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent,  useState} from "react";
+import {TextField} from "@mui/material";
 
 type EditableSpanePropsType = {
     title: string
@@ -37,7 +38,8 @@ const EditableSpane = React.memo( (props: EditableSpanePropsType) => {
         <>
             {
                 edit
-                    ? <input
+                    ? <TextField
+                        variant="filled"
                         value={title}
                         onChange={onChangeHandler}
                         onKeyPress={onKeyPressHandler}
