@@ -4,6 +4,7 @@ import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunk} from "./store";
 import {setAppStatusAC, statusType} from "./app-reducer";
+import {handleServerNetworkAppError} from "../utils/error-utils";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -143,6 +144,9 @@ export const fetchTodolistsTC = (): AppThunk => {
                 const action = setTodolistAC(res.data)
                 dispatch(action)
                 dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch(error => {
+                handleServerNetworkAppError(error, dispatch)
             })
     }
 }

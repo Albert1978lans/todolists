@@ -1,10 +1,18 @@
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 import {useFormik} from "formik";
+import {useAppDispatch, useAppSelector} from "../../state/hooks";
+import {loginTC} from "./login-reducer";
+import {Navigate} from "react-router-dom";
 
 
 
 
 export const Login = () => {
+
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
+
 
     const formik = useFormik({
         validate: values => {
@@ -17,8 +25,8 @@ export const Login = () => {
 
             if (!values.password) {
                 return {password: 'Required'}
-            } else if (values.password.length > 8) {
-                return {password: 'Must be 8 characters or less'}
+            } else if (values.password.length > 20) {
+                return {password: 'Must be 20 characters or less'}
             }
         },
         initialValues: {
@@ -29,10 +37,14 @@ export const Login = () => {
         },
 
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(loginTC(values))
             console.log(values)
         },
     })
+
+    if (isLoggedIn) {
+        return <Navigate replace to="/" />
+    }
 
     return (
         <Grid container={true} justifyContent={'center'}>

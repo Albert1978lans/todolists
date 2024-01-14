@@ -36,6 +36,12 @@ const initialGlobalState: AppRootStateType = {
     app: {
         status: "idle",
         error: null
+    },
+    auth: {
+        // email: '',
+        // password: '',
+        // rememberMe: false
+        isLoggedIn: false
     }
 }
 

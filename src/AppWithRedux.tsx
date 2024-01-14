@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import {useAppSelector} from "./state/hooks";
+import {useAppDispatch, useAppSelector} from "./state/hooks";
 import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
 import {ErrorSnackbar} from "./ErrorSnackbar";
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
+import {signUpTC} from "./features/Login/login-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -17,8 +18,16 @@ type PropsType = {
 function AppWithRedux({demo = false, ...props}: PropsType) {
 
     console.log('AppWithRedux')
-
+    const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
+
+    const signUp = useCallback(() => {
+        const thunk = signUpTC()
+        dispatch(thunk)
+    }, [dispatch])
+
+
+
 
     return (
         <BrowserRouter>
@@ -39,6 +48,7 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
                                 News
                             </Typography>
                             <Button color="inherit">Login</Button>
+                            <Button color="inherit" onClick={signUp}>SignUp</Button>
                         </Toolbar>
                     </AppBar>
                     {status === 'loading' && <LinearProgress/>}
