@@ -1,13 +1,23 @@
-import React, {useCallback} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {useAppDispatch, useAppSelector} from "./state/hooks";
-import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
+import {
+    AppBar,
+    Button,
+    CircularProgress,
+    Container,
+    IconButton,
+    LinearProgress,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import {ErrorSnackbar} from "./ErrorSnackbar";
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
 import {signUpTC} from "./features/Login/login-reducer";
+import {initializeAppTC} from "./state/app-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -20,11 +30,24 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
     console.log('AppWithRedux')
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
 
-    const signUp = useCallback(() => {
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
+
+    if (!isInitialized) {
+        return <div style={{position: 'fixed', top: '40%', width: '100%', textAlign: 'center' }}>
+            <CircularProgress />
+        </div>
+    }
+
+
+
+    const signUp =  ()=> {
         const thunk = signUpTC()
         dispatch(thunk)
-    }, [dispatch])
+    }
 
 
 

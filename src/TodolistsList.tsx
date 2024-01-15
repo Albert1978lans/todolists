@@ -13,6 +13,7 @@ import {
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses} from "./api/todolists-api";
 import {FilterValuesType} from "./AppWithRedux";
+import {Navigate} from "react-router-dom";
 
 
 type PropsType = {
@@ -24,10 +25,10 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
-    const status = useAppSelector(state => state.app.status)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        if (demo) return
+        if (demo || !isLoggedIn) return
         dispatch(fetchTodolistsTC())
     }, [])
 
@@ -69,6 +70,10 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
         const thunk = changeTodolistTitleTC(todolistId, title)
         dispatch(thunk)
     }, [dispatch])
+
+    if (!isLoggedIn) {
+        return <Navigate replace to={'/login'}/>
+    }
 
     return (
         <>
