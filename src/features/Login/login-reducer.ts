@@ -61,26 +61,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => {
     }
 }
 
-export const signUpTC = (): AppThunk => {
-    return (dispatch: Dispatch<AppActionsType>) => {
 
-        dispatch(setAppStatusAC('loading'))
-
-        authAPI.signUp()
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC(false))
-                    dispatch(setAppStatusAC('succeeded'))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-    }
-}
 
 
 

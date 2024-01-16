@@ -22,6 +22,8 @@ type PropsType = {
 
 export const TodolistsList = ({demo = false, ...props}: PropsType) => {
 
+    console.log('TodolistsList')
+
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
@@ -83,7 +85,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
             <Grid container spacing={3}>
                 {todolists.map(tl => {
 
-                    return <Grid item>
+                    return <Grid key={tl.id} item>
                         <Paper style={{padding: '10px'}}>
                             <Todolist
                                 key={tl.id}

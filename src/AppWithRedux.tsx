@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {useAppDispatch, useAppSelector} from "./state/hooks";
 import {
@@ -16,8 +16,7 @@ import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
-import {signUpTC} from "./features/Login/login-reducer";
-import {initializeAppTC} from "./state/app-reducer";
+import {initializeAppTC, logOutTC} from "./state/app-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -31,9 +30,14 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
         dispatch(initializeAppTC())
+    }, [])
+
+    const logoutHandler =  useCallback(()=> {
+        dispatch(logOutTC())
     }, [])
 
     if (!isInitialized) {
@@ -41,16 +45,6 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
             <CircularProgress />
         </div>
     }
-
-
-
-    const signUp =  ()=> {
-        const thunk = signUpTC()
-        dispatch(thunk)
-    }
-
-
-
 
     return (
         <BrowserRouter>
@@ -70,8 +64,7 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
                             <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                                 News
                             </Typography>
-                            <Button color="inherit">Login</Button>
-                            <Button color="inherit" onClick={signUp}>SignUp</Button>
+                            {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log Out</Button>}
                         </Toolbar>
                     </AppBar>
                     {status === 'loading' && <LinearProgress/>}

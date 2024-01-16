@@ -47,6 +47,7 @@ export type TasksActionsType = RemoveTaskActionType
     | RemoveTodolistActionType
     | SetTodolistActionType
     | SetTasksActionType
+    | ReturnType<typeof clearTaskAC>
 
 const initialeState: TasksStateType = {
     // [todolistId1]: [
@@ -101,6 +102,11 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
                 [action.todolistId]: action.tasks
             }
         }
+        case 'CLEAR-TASKS': {
+            let copyState = {...state}
+            copyState = {}
+            return copyState
+        }
 
 
         default:
@@ -129,6 +135,12 @@ export const updateTaskAC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
 export const setTasksAC = (todolistId: string, tasks: Array<TaskType>): SetTasksActionType => {
     return {type: 'SET-TASKS',todolistId, tasks}
+}
+
+export const clearTaskAC = () => {
+    return {
+        type: 'CLEAR-TASKS'
+    } as const
 }
 
 // Thunk

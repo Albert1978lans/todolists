@@ -48,7 +48,8 @@ export type TodolistsActionsType =
     ChangeTodolistTitleActionType |
     ChangeTodolistFilterActionType |
     SetTodolistActionType |
-    ChangeTodolistEntityStatusActionType
+    ChangeTodolistEntityStatusActionType |
+    ReturnType<typeof clearTodolistAC>
 
 export const todolistId1 = v1()
 export const todolistId2 = v1()
@@ -79,6 +80,12 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialeStat
             })
         case "CHANGE-TODOLIST-ENTITY-STATUS":
             return state.map(tl => tl.id === action.todolistId ? {...tl, entityStatus: action.status} : tl)
+
+        case "CLEAR-TODOLISTS": {
+            let copyState = [...state]
+            copyState = []
+            return copyState
+        }
 
         default:
             return state
@@ -131,6 +138,12 @@ export const setTodolistAC = (todolist: Array<TodolistType>):SetTodolistActionTy
         type: 'SET-TODOLISTS',
         todolists: todolist
     }
+}
+
+export const clearTodolistAC = () => {
+    return {
+        type: 'CLEAR-TODOLISTS'
+    } as const
 }
 
 

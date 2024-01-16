@@ -9,10 +9,10 @@ import {Navigate} from "react-router-dom";
 
 export const Login = () => {
 
+    console.log('Login')
+
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
-
 
     const formik = useFormik({
         validate: values => {
