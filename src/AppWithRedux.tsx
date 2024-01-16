@@ -26,6 +26,7 @@ type PropsType = {
 
 function AppWithRedux({demo = false, ...props}: PropsType) {
 
+
     console.log('AppWithRedux')
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
