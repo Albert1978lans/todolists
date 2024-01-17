@@ -22,7 +22,7 @@ type PropsType = {
 
 export const TodolistsList = ({demo = false, ...props}: PropsType) => {
 
-    console.log('TodolistsList')
+    // console.log('TodolistsList')
 
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(state => state.todolists)

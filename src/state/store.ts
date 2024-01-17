@@ -5,6 +5,9 @@ import {ThunkAction} from "redux-thunk";
 import {UiActionsType, appReducer} from "./app-reducer";
 import {authReducer, LoginActionsType} from "../features/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {logger} from "../middleware/middleware";
+
+
 
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
@@ -15,8 +18,10 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>getDefaultMiddleware().prepend()
+    middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(logger)
 })
+
+
 
 
 
