@@ -57,13 +57,13 @@ export const {setIsLoggedInAC} = slice.actions
 export const loginTC = (data: LoginParamsType): AppThunk => {
     return (dispatch: Dispatch<AppActionsType>) => {
 
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
 
         authAPI.login(data)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     dispatch(setIsLoggedInAC({value: true}))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
@@ -78,7 +78,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => {
 export const logOutTC = (): AppThunk => {
     return (dispatch: Dispatch<AppActionsType>) => {
 
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
 
         dispatch(clearTodolistAC())
         dispatch(clearTaskAC())
@@ -87,7 +87,7 @@ export const logOutTC = (): AppThunk => {
             .then(res => {
                 if (res.data.resultCode === 0) {
                     dispatch(setIsLoggedInAC({value:false}))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }

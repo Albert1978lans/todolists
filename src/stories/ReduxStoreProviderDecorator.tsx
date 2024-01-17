@@ -35,7 +35,7 @@ const initialGlobalState: AppRootStateType = {
     },
     app: {
         status: "idle",
-        error: null,
+        error: '',
         isInitialized: false
     },
     auth: {
