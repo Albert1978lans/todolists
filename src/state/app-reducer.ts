@@ -66,33 +66,10 @@ export const initializeAppTC = () => {
         authAPI.me()
             .then(res => {
                 if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC(true))
+                    dispatch(setIsLoggedInAC({value: true}))
                 }
                 dispatch(setAppIsInitializedAC(true))
             })
     }
 }
 
-export const logOutTC = (): AppThunk => {
-    return (dispatch: Dispatch<AppActionsType>) => {
-
-        dispatch(setAppStatusAC('loading'))
-        
-        dispatch(clearTodolistAC())
-        dispatch(clearTaskAC())
-
-        authAPI.logOut()
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC(false))
-                    dispatch(setAppStatusAC('succeeded'))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-    }
-}

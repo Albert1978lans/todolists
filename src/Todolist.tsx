@@ -26,7 +26,7 @@ type TodolistPropsType = {
 
 export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) => {
 
-        console.log('Todolist')
+        // console.log('Todolist')
 
         const dispatch = useAppDispatch()
 

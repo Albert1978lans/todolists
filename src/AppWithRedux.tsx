@@ -16,7 +16,8 @@ import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
-import {initializeAppTC, logOutTC} from "./state/app-reducer";
+import {initializeAppTC} from "./state/app-reducer";
+import {logOutTC} from "./features/Login/login-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 

@@ -8,7 +8,7 @@ type EditableSpanePropsType = {
 
 const EditableSpane = React.memo( (props: EditableSpanePropsType) => {
 
-    console.log('EditableSpane')
+    // console.log('EditableSpane')
 
     const [edit, setEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
