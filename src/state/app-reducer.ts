@@ -12,11 +12,7 @@ export type InitialStateType = {
     isInitialized: boolean
 }
 
-const initialState = {
-    status: "idle",
-    error: '',
-    isInitialized: false
-}
+
 
 export type setAppErrorActionType = {
     type: 'app/setAppErrorAC'
@@ -44,6 +40,12 @@ export type UiActionsType =
     setAppErrorActionType |
     setAppStatusActionType |
     setAppIsInitializedActionType
+
+const initialState = {
+    status: "idle",
+    error: '',
+    isInitialized: false
+}
 
 const slice = createSlice({
     name: 'app',

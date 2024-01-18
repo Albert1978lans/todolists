@@ -1,7 +1,7 @@
 import {
-    AddTodolistActionType,
-    RemoveTodolistActionType,
-    SetTodolistActionType
+    addTodolistAC,
+    removeTodolistAC,
+    setTodolistAC,
 } from "./todolists-reducer";
 import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {AppActionsType, AppRootStateType, AppThunk} from "./store";
@@ -43,9 +43,9 @@ type SetTasksActionType = {
 export type TasksActionsType = RemoveTaskActionType
     | AddTaskActionType
     | UpdateTaskActionType
-    | AddTodolistActionType
-    | RemoveTodolistActionType
-    | SetTodolistActionType
+    | ReturnType<typeof addTodolistAC>
+    | ReturnType<typeof removeTodolistAC>
+    | ReturnType<typeof setTodolistAC>
     | SetTasksActionType
     | ReturnType<typeof clearTaskAC>
 
@@ -79,19 +79,20 @@ export const tasksReducer = (state: TasksStateType = initialeState, action: Task
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)
             }
-        case "ADD-TODOLIST":
+
+        case addTodolistAC.type:
             return {
                 ...state,
-                [action.todolist.id]: [],
+                [action.payload.todolist.id]: [],
             }
-        case "REMOVE-TODOLIST": {
+        case removeTodolistAC.type: {
             let stateCopy = {...state}
-            delete stateCopy[action.id]
+            delete stateCopy[action.payload.todolistId]
             return stateCopy
         }
-        case "SET-TODOLISTS": {
+        case setTodolistAC.type: {
             const copyState = {...state}
-            action.todolists.forEach(tl => {
+            action.payload.todolists.forEach(tl => {
                 copyState[tl.id] = []
             })
             return copyState

@@ -49,7 +49,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        const action = changeTodolistFilterAC(todolistId, value)
+        const action = changeTodolistFilterAC({todolistId: todolistId, filter: value})
         dispatch(action)
     }, [dispatch])
 
@@ -83,6 +83,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
                 <AddItemForm addItem={addTodolist}/>
             </Grid>
             <Grid container spacing={3}>
+
                 {todolists.map(tl => {
 
                     return <Grid key={tl.id} item>
