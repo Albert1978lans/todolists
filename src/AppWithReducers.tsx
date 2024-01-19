@@ -21,49 +21,117 @@ function AppWithReducers() {
     const todolistId1 = v1()
     const todolistId2 = v1()
 
-    const [todolists, dispatchToTodolistsReducers] = useReducer(todolistsReducer,[
+    const [todolists, dispatchToTodolistsReducers] = useReducer(todolistsReducer, [
         {id: todolistId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
         {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
     ])
-    const [tasks, dispatchToTasksReducers] = useReducer(tasksReducer,{
+    const [tasks, dispatchToTasksReducers] = useReducer(tasksReducer, {
 
-            [todolistId1]: [
-        {id: v1(), title: 'HTML&CSS', status: TaskStatuses.Completed, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1},
-        {id: v1(), title: 'JS', status: TaskStatuses.Completed, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1},
-        {id: v1(), title: 'ReactJS', status: TaskStatuses.New, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1},
-        {id: v1(), title: 'Redux', status: TaskStatuses.New, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1},
-    ],
+        [todolistId1]: [
+            {
+                id: v1(),
+                title: 'HTML&CSS',
+                status: TaskStatuses.Completed,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            },
+            {
+                id: v1(),
+                title: 'JS',
+                status: TaskStatuses.Completed,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            },
+            {
+                id: v1(),
+                title: 'ReactJS',
+                status: TaskStatuses.New,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            },
+            {
+                id: v1(),
+                title: 'Redux',
+                status: TaskStatuses.New,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            },
+        ],
         [todolistId2]: [
-        {id: v1(), title: 'Milk', status: TaskStatuses.New, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1},
-        {id: v1(), title: 'Bread', status: TaskStatuses.Completed, description: '', deadline: '', order: 0, addedDate: '', startDate: '', priority: TaskPriorities.Low, todoListId: todolistId1}
-    ]
+            {
+                id: v1(),
+                title: 'Milk',
+                status: TaskStatuses.New,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            },
+            {
+                id: v1(),
+                title: 'Bread',
+                status: TaskStatuses.Completed,
+                description: '',
+                deadline: '',
+                order: 0,
+                addedDate: '',
+                startDate: '',
+                priority: TaskPriorities.Low,
+                todoListId: todolistId1
+            }
+        ]
     })
 
     function addTask(todolistId: string, title: string) {
         const action = addTaskAC(
             {
-                id : v1(),
-                title : title,
-                description : '',
-                todoListId : todolistId,
-                order : 0,
-                status : TaskStatuses.New,
-                priority : TaskPriorities.Low,
-                startDate : '',
-                deadline : '',
-                addedDate : ''
+                task: {
+                    id: v1(),
+                    title: title,
+                    description: '',
+                    todoListId: todolistId,
+                    order: 0,
+                    status: TaskStatuses.New,
+                    priority: TaskPriorities.Low,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: ''
+                }
             }
         )
         dispatchToTasksReducers(action)
     }
 
     function removeTask(todolistId: string, taskId: string) {
-        const action = removeTaskAC(taskId, todolistId)
+        const action = removeTaskAC({taskId: taskId, todolistId: todolistId})
         dispatchToTasksReducers(action)
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, newStatus: TaskStatuses) => {
-        const action = updateTaskAC(taskId, {status: newStatus}, todolistId)
+        const action = updateTaskAC({taskId: taskId, domainModel: {status: newStatus}, todolistId: todolistId})
         dispatchToTasksReducers(action)
     }
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
@@ -76,17 +144,19 @@ function AppWithReducers() {
         dispatchToTasksReducers(action)
     }
     const addTodolist = (todolistTitle: string) => {
-        const action = addTodolistAC({todolist: {
-            id: v1(),
-            title: todolistTitle,
-            addedDate: '',
-            order: 0
-        }})
+        const action = addTodolistAC({
+            todolist: {
+                id: v1(),
+                title: todolistTitle,
+                addedDate: '',
+                order: 0
+            }
+        })
         dispatchToTodolistsReducers(action)
         dispatchToTasksReducers(action)
     }
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        const action =updateTaskAC(taskId, {title: title}, todolistId)
+        const action = updateTaskAC({taskId: taskId, domainModel: {title: title}, todolistId: todolistId})
         dispatchToTasksReducers(action)
     }
     const changeTodolistTitle = (todolistId: string, title: string) => {
