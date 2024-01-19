@@ -1,5 +1,5 @@
-import {Dispatch} from "redux";
-import {AppActionsType} from "./store";
+
+import {AppDispatch} from "./store";
 import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "../features/Login/login-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -11,35 +11,6 @@ export type InitialStateType = {
     error: string,
     isInitialized: boolean
 }
-
-
-
-export type setAppErrorActionType = {
-    type: 'app/setAppErrorAC'
-    payload: {
-        error: string | null
-    }
-
-}
-export type setAppStatusActionType = {
-    type: 'app/setAppStatusAC'
-    payload: {
-        status: statusType
-    }
-
-}
-export type setAppIsInitializedActionType = {
-    type: 'app/setAppIsInitializedAC',
-    payload: {
-        value: boolean
-    }
-
-}
-
-export type UiActionsType =
-    setAppErrorActionType |
-    setAppStatusActionType |
-    setAppIsInitializedActionType
 
 const initialState = {
     status: "idle",
@@ -70,7 +41,7 @@ export const {setAppErrorAC, setAppStatusAC, setAppIsInitializedAC} = slice.acti
 // Thunk
 
 export const initializeAppTC = () => {
-    return(dispatch: Dispatch<AppActionsType>) => {
+    return(dispatch: AppDispatch) => {
         authAPI.me()
             .then(res => {
                 if (res.data.resultCode === 0) {

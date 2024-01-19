@@ -4,8 +4,7 @@ import {
     setTodolistAC,
 } from "./todolists-reducer";
 import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
-import {AppActionsType, AppRootStateType, AppThunk} from "./store";
-import {Dispatch} from "redux";
+import {AppDispatch, AppRootStateType} from "./store";
 import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -15,20 +14,6 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-
-type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
-type AddTaskActionType = ReturnType<typeof addTaskAC>
-type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
-type SetTasksActionType = ReturnType<typeof setTasksAC>
-
-export type TasksActionsType = RemoveTaskActionType
-    | AddTaskActionType
-    | UpdateTaskActionType
-    | ReturnType<typeof addTodolistAC>
-    | ReturnType<typeof removeTodolistAC>
-    | ReturnType<typeof setTodolistAC>
-    | SetTasksActionType
-    | ReturnType<typeof clearTaskAC>
 
 const initialeState: TasksStateType = {
     // [todolistId1]: [
@@ -94,8 +79,8 @@ export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC, clearTaskAC} = 
 
 // Thunk
 
-export const fetchTasksTC = (todolistID: string): AppThunk => {
-    return (dispatch: Dispatch<AppActionsType>) => {
+export const fetchTasksTC = (todolistID: string) => {
+    return (dispatch: AppDispatch) => {
 
         dispatch(setAppStatusAC({status: 'loading'}))
 
@@ -115,8 +100,8 @@ export const fetchTasksTC = (todolistID: string): AppThunk => {
     }
 }
 
-export const removeTaskTC = (todolistID: string, taskID: string): AppThunk => {
-    return (dispatch: Dispatch<AppActionsType>) => {
+export const removeTaskTC = (todolistID: string, taskID: string) => {
+    return (dispatch: AppDispatch) => {
 
         dispatch(setAppStatusAC({status: 'loading'}))
 
@@ -135,8 +120,8 @@ export const removeTaskTC = (todolistID: string, taskID: string): AppThunk => {
             })
     }
 }
-export const addTaskTC = (todolistID: string, title: string): AppThunk => {
-    return (dispatch: Dispatch<AppActionsType>) => {
+export const addTaskTC = (todolistID: string, title: string) => {
+    return (dispatch: AppDispatch) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         todolistsAPI.createTask(todolistID, title)
             .then(res => {
@@ -163,9 +148,9 @@ export type UpdateDomainTaskModelType = {
     deadline?: string | null
 }
 
-export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk => {
+export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) => {
 
-    return (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
+    return (dispatch: AppDispatch, getState: () => AppRootStateType) => {
         dispatch(setAppStatusAC({status: 'loading'}))
 
         const state = getState()
