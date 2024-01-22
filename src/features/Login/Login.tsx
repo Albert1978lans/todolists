@@ -14,6 +14,12 @@ export const Login = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
+    type FormikErrorType = {
+        email?: string
+        password?: string
+        rememberMe?: boolean
+    }
+
     const formik = useFormik({
         validate: values => {
 
@@ -28,6 +34,14 @@ export const Login = () => {
             } else if (values.password.length > 20) {
                 return {password: 'Must be 20 characters or less'}
             }
+
+            // const errors: FormikErrorType = {}
+            // if (!values.email) {
+            //     errors.email = 'Required'
+            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            //     errors.email = 'Invalid email address'
+            // }
+            // return errors
         },
         initialValues: {
             email: '',
@@ -38,6 +52,7 @@ export const Login = () => {
 
         onSubmit: values => {
             dispatch(loginTC(values))
+            formik.resetForm()
             console.log(values)
         },
     })

@@ -17,8 +17,8 @@ export const store = configureStore({
     reducer: rootReducer,
     // middleware: (getDefaultMiddleware) =>getDefaultMiddleware().concat(logger)
 })
-
-export type AppRootStateType = ReturnType<typeof rootReducer>        // типизация стэйта приложения
+export type RootReducer = typeof rootReducer
+export type AppRootStateType = ReturnType<RootReducer>        // типизация стэйта приложения
 export type AppStore = typeof store
 export type AppDispatch = typeof store.dispatch  // типизация dispatch
 

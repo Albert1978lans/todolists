@@ -14,7 +14,7 @@ import {
 import {ErrorSnackbar} from "./ErrorSnackbar";
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
 import {initializeAppTC} from "./state/app-reducer";
 import {logOutTC} from "./features/Login/login-reducer";
@@ -35,7 +35,10 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        if (!demo) {
+            dispatch(initializeAppTC())
+        }
+
     }, [])
 
     const logoutHandler =  useCallback(()=> {
@@ -49,7 +52,7 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
     }
 
     return (
-        <BrowserRouter>
+
             <div className='App'>
                 <ErrorSnackbar/>
 
@@ -74,11 +77,13 @@ function AppWithRedux({demo = false, ...props}: PropsType) {
                         <Routes>
                             <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
                             <Route path={'/login'} element={<Login/>}/>
+                            <Route path='/404' element={<h1>404: PAGE NOT FOUND</h1>} />
+                            <Route path='*' element={<Navigate  to='/404'/>} />
                         </Routes>
                     </Container>
                 </div>
             </div>
-        </BrowserRouter>
+
     );
 }
 
