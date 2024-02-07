@@ -1,6 +1,6 @@
 import {
-    addTaskAC,
-    removeTaskAC, setTasksAC,
+    addTaskAC, fetchTasksTC,
+    removeTaskAC,
     tasksReducer,
     TasksStateType, updateTaskAC
 } from "./tasks-reducer";
@@ -200,7 +200,7 @@ test('correct task should be added to correct array', () => {
 
     test('tasks should be added for todolist', () => {
 
-        const action = setTasksAC({todolistId: "todolistId2", tasks: startState["todolistId2"]})
+        const action = fetchTasksTC.fulfilled({todolistID: "todolistId2", tasks: startState["todolistId2"]},'requestId',  'todolistId2')
 
         const endState = tasksReducer(
             {
