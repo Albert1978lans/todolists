@@ -10,7 +10,7 @@ import {
     fetchTodolistsTC,
     removeTodolistTC
 } from "./state/todolists-reducer";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
+import {addTaskTC, removeTask, updateTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses} from "./api/todolists-api";
 import {FilterValuesType} from "./AppWithRedux";
 import {Navigate} from "react-router-dom";
@@ -38,8 +38,8 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
         dispatch(addTaskTC(todolistID, title))
     }, [dispatch])
 
-    const removeTask = useCallback((todolistId: string, taskId: string) => {
-        const thunk = removeTaskTC(todolistId, taskId)
+    const deleteTask = useCallback((todolistId: string, taskId: string) => {
+        const thunk = removeTask({todolistId, taskId})
         dispatch(thunk)
     }, [dispatch])
 
@@ -92,7 +92,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
                                 key={tl.id}
                                 todolist={tl}
                                 tasks={tasks[tl.id]}
-                                removeTask={removeTask}
+                                deleteTask={deleteTask}
                                 changeFilter={changeFilter}
                                 addTask={addTask}
                                 changeTaskStatus={changeTaskStatus}

@@ -8,14 +8,14 @@ import {Delete} from "@mui/icons-material";
 type TaskPropsType = {
     todolistId: string
     task: TaskType
-    removeTask: (todolistId: string, taskId: string) => void
+    deleteTask: (todolistId: string, taskId: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, newStatus: TaskStatuses) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
 }
 
 export const Task = React.memo((props:TaskPropsType) => {
 
-    const removeTask = () => props.removeTask(props.todolistId, props.task.id)
+    const removeTask = () => props.deleteTask(props.todolistId, props.task.id)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         e.currentTarget.checked
             ? props.changeTaskStatus(props.todolistId, props.task.id, TaskStatuses.Completed)

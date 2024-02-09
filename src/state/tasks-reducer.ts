@@ -28,27 +28,35 @@ const initialeState: TasksStateType = {
     // ]
 }
 
-export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks', (todolistID: string, thunkAPI) => {
+export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
-    return todolistsAPI.getTasks(todolistID)
-        .then(res => {
-            const tasks = res.data.items
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-            return {tasks, todolistID}; //передаём payload в extraReducers case fetchTasksTC ниже
-        })
+    const res = await todolistsAPI.getTasks(todolistId)
+    const tasks = res.data.items
+    thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+    return {tasks, todolistId}; //передаём payload в extraReducers case fetchTasks ниже
+
 })
+
+export const removeTask = createAsyncThunk('tasks/removeTask', async (param: { todolistId: string, taskId: string }, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+    const res = await (todolistsAPI.deleteTask(param.todolistId, param.taskId))
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            return {todolistId: param.todolistId, taskId: param.taskId}
+
+})
+
 
 const slice = createSlice({
     name: 'tasks',
     initialState: initialeState,
     reducers: {
-        removeTaskAC(state, actions: PayloadAction<{ todolistId: string, taskId: string }>) {
-            const indexTask = state[actions.payload.todolistId].findIndex(t => t.id === actions.payload.taskId)
-            if (indexTask > -1) {
-                state[actions.payload.todolistId].splice(indexTask, 1)
-            }
-
-        },
+        // removeTaskAC(state, actions: PayloadAction<{ todolistId: string, taskId: string }>) {
+        //     const indexTask = state[actions.payload.todolistId].findIndex(t => t.id === actions.payload.taskId)
+        //     if (indexTask > -1) {
+        //         state[actions.payload.todolistId].splice(indexTask, 1)
+        //     }
+        //
+        // },
         addTaskAC(state, actions: PayloadAction<{ task: TaskType }>) {
             state[actions.payload.task.todoListId].unshift(actions.payload.task)
         },
@@ -78,38 +86,25 @@ const slice = createSlice({
                     state[tl.id] = []
                 })
             })
-            .addCase(fetchTasksTC.fulfilled, (state, action) => {
-                state[action.payload.todolistID] = action.payload.tasks    // payload приходит с санки fetchTasksTC выше
+            .addCase(fetchTasks.fulfilled, (state, action) => {
+                state[action.payload.todolistId] = action.payload.tasks    // payload приходит с санки fetchTasksTC выше
+            })
+            .addCase(removeTask.fulfilled, (state, action) => {
+                const indexTask = state[action.payload.todolistId].findIndex(t => t.id === action.payload.taskId)
+                if (indexTask > -1) {
+                    state[action.payload.todolistId].splice(indexTask, 1)
+                }
             })
     },
 })
 
 export const tasksReducer = slice.reducer
-export const {removeTaskAC, addTaskAC, updateTaskAC, clearTaskAC} = slice.actions
+export const {addTaskAC, updateTaskAC, clearTaskAC} = slice.actions
 
 
 // Thunk
 
-export const removeTaskTC = (todolistID: string, taskID: string) => {
-    return (dispatch: AppDispatch) => {
 
-        dispatch(setAppStatusAC({status: 'loading'}))
-
-        todolistsAPI.deleteTask(todolistID, taskID)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(removeTaskAC({todolistId: todolistID, taskId: taskID}))
-                    dispatch(setAppStatusAC({status: 'succeeded'}))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-    }
-}
 export const addTaskTC = (todolistID: string, title: string) => {
     return (dispatch: AppDispatch) => {
         dispatch(setAppStatusAC({status: 'loading'}))

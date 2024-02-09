@@ -6,7 +6,7 @@ import {Task} from "./Task";
 import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {useAppDispatch} from "./state/hooks";
-import {fetchTasksTC} from "./state/tasks-reducer";
+import {fetchTasks} from "./state/tasks-reducer";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
@@ -14,7 +14,7 @@ import {Delete} from "@mui/icons-material";
 type TodolistPropsType = {
     todolist:TodolistDomainType
     tasks: TaskType[]
-    removeTask: (todolistId: string, taskId: string) => void
+    deleteTask: (todolistId: string, taskId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, newStatus: TaskStatuses) => void
@@ -34,7 +34,7 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
             if (demo) {
                 return
             }
-            dispatch(fetchTasksTC(props.todolist.id))
+            dispatch(fetchTasks(props.todolist.id))
         },[])
 
         const removeTodolist = (todolistId: string) => {
@@ -77,7 +77,7 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
                             key={t.id}
                             todolistId={props.todolist.id}
                             task={t}
-                            removeTask={props.removeTask}
+                            deleteTask={props.deleteTask}
                             changeTaskStatus={props.changeTaskStatus}
                             changeTaskTitle={props.changeTaskTitle}
                         />
