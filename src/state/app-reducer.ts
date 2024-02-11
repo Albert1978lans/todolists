@@ -1,5 +1,5 @@
 
-import {AppDispatch} from "./store";
+import {AppDispatchType} from "./store";
 import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "../features/Login/login-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -41,7 +41,7 @@ export const {setAppErrorAC, setAppStatusAC, setAppIsInitializedAC} = slice.acti
 // Thunk
 
 export const initializeAppTC = () => {
-    return(dispatch: AppDispatch) => {
+    return(dispatch: AppDispatchType) => {
         authAPI.me()
             .then(res => {
                 if (res.data.resultCode === 0) {

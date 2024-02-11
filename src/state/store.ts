@@ -4,7 +4,8 @@ import {combineReducers} from 'redux';
 import {appReducer} from "./app-reducer";
 import {authReducer} from "../features/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
-import {logger} from "../middleware/middleware";
+// import {logger} from "../middleware/middleware";
+import {useDispatch} from "react-redux";
 
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
@@ -20,7 +21,8 @@ export const store = configureStore({
 export type RootReducer = typeof rootReducer
 export type AppRootStateType = ReturnType<RootReducer>        // типизация стэйта приложения
 export type AppStore = typeof store
-export type AppDispatch = typeof store.dispatch  // типизация dispatch
+export type AppDispatchType = typeof store.dispatch  // типизация dispatch
+export const useAppDispatch = () => useDispatch<AppDispatchType>()
 
 
 // @ts-ignore

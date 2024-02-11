@@ -1,10 +1,15 @@
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
-import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../state/hooks";
+import {FormikHelpers, useFormik} from "formik";
+import {useAppSelector} from "../../state/hooks";
 import {loginTC} from "./login-reducer";
 import {Navigate} from "react-router-dom";
+import {useAppDispatch} from "../../state/store";
 
-
+type FormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 
 export const Login = () => {
@@ -20,14 +25,16 @@ export const Login = () => {
         rememberMe?: boolean
     }
 
+
+
     const formik = useFormik({
         validate: values => {
 
-            if (!values.email) {
-                return {email: 'Required'}
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                return {email: 'Invalid email address'}
-            }
+            // if (!values.email) {
+            //     return {email: 'Required'}
+            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            //     return {email: 'Invalid email address'}
+            // }
 
             if (!values.password) {
                 return {password: 'Required'}
@@ -50,10 +57,14 @@ export const Login = () => {
 
         },
 
-        onSubmit: values => {
-            dispatch(loginTC(values))
-            formik.resetForm()
-            console.log(values)
+        onSubmit: async (values :FormValuesType , formikHelpers: FormikHelpers<FormValuesType>) => {
+            const action = await (dispatch(loginTC(values)))
+            if (loginTC.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
+                    const error = action.payload.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
         },
     })
 

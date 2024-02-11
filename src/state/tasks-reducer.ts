@@ -4,7 +4,7 @@ import {
     setTodolistAC,
 } from "./todolists-reducer";
 import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
-import {AppDispatch, AppRootStateType} from "./store";
+import {AppDispatchType, AppRootStateType} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -50,13 +50,6 @@ const slice = createSlice({
     name: 'tasks',
     initialState: initialeState,
     reducers: {
-        // removeTaskAC(state, actions: PayloadAction<{ todolistId: string, taskId: string }>) {
-        //     const indexTask = state[actions.payload.todolistId].findIndex(t => t.id === actions.payload.taskId)
-        //     if (indexTask > -1) {
-        //         state[actions.payload.todolistId].splice(indexTask, 1)
-        //     }
-        //
-        // },
         addTaskAC(state, actions: PayloadAction<{ task: TaskType }>) {
             state[actions.payload.task.todoListId].unshift(actions.payload.task)
         },
@@ -106,7 +99,7 @@ export const {addTaskAC, updateTaskAC, clearTaskAC} = slice.actions
 
 
 export const addTaskTC = (todolistID: string, title: string) => {
-    return (dispatch: AppDispatch) => {
+    return (dispatch: AppDispatchType) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         todolistsAPI.createTask(todolistID, title)
             .then(res => {
@@ -135,7 +128,7 @@ export type UpdateDomainTaskModelType = {
 
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) => {
 
-    return (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    return (dispatch: AppDispatchType, getState: () => AppRootStateType) => {
         dispatch(setAppStatusAC({status: 'loading'}))
 
         const state = getState()

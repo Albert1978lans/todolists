@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {useAppDispatch, useAppSelector} from "./state/hooks";
+import {useAppDispatch} from "./state/store";
+import {useAppSelector} from "./state/hooks";
 import {
     AppBar,
     Button,
@@ -14,10 +15,11 @@ import {
 import {ErrorSnackbar} from "./ErrorSnackbar";
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "./TodolistsList";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
 import {initializeAppTC} from "./state/app-reducer";
 import {logOutTC} from "./features/Login/login-reducer";
+
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 

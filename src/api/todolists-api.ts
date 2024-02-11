@@ -42,10 +42,14 @@ export type TaskType = {
     deadline : string | null,
     addedDate : string
 }
+export type FieldErrorType = {
+    error: string
+    field: string
+}
 export type ResponseType<D = {}> = {
     data: D,
     messages: string[],
-    fieldsErrors: string[],
+    fieldsErrors: FieldErrorType[],
     resultCode: number
 }
 type ResponseTaskType = {

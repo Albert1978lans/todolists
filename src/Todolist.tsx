@@ -5,7 +5,7 @@ import EditableSpane from "./EditableSpane";
 import {Task} from "./Task";
 import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {useAppDispatch} from "./state/hooks";
+import {useAppDispatch} from "./state/store";
 import {fetchTasks} from "./state/tasks-reducer";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";

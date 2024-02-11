@@ -2,7 +2,7 @@ import {Grid, Paper} from "@mui/material";
 import AddItemForm from "./AddItemForm";
 import {Todolist} from "./Todolist";
 import React, {useCallback, useEffect} from "react";
-import {useAppDispatch, useAppSelector} from "./state/hooks";
+import {useAppSelector} from "./state/hooks";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -14,6 +14,7 @@ import {addTaskTC, removeTask, updateTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses} from "./api/todolists-api";
 import {FilterValuesType} from "./AppWithRedux";
 import {Navigate} from "react-router-dom";
+import {useAppDispatch} from "./state/store";
 
 
 type PropsType = {

@@ -4,7 +4,7 @@ import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {setAppStatusAC, statusType} from "./app-reducer";
 import {handleServerNetworkAppError} from "../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppDispatch} from "./store";
+import {AppDispatchType} from "./store";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -76,7 +76,7 @@ export const {
 // Thunk
 
 export const fetchTodolistsTC = () => {
-    return(dispatch: AppDispatch) => {
+    return(dispatch: AppDispatchType) => {
         dispatch(setAppStatusAC({status:'loading'}))
         todolistsAPI.getTodolist()
             .then(res => {
@@ -91,7 +91,7 @@ export const fetchTodolistsTC = () => {
 }
 
 export const removeTodolistTC = (todolistId: string) => {
-    return(dispatch: AppDispatch) => {
+    return(dispatch: AppDispatchType) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTodolistEntityStatusAC({status: 'loading', todolistId: todolistId}))
         todolistsAPI.deleteTodolist(todolistId)
@@ -104,7 +104,7 @@ export const removeTodolistTC = (todolistId: string) => {
 }
 
 export const addTodolistTC = (todolistTitle: string) => {
-    return(dispatch: AppDispatch) => {
+    return(dispatch: AppDispatchType) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         todolistsAPI.createTodolist(todolistTitle)
             .then(res => {
@@ -116,7 +116,7 @@ export const addTodolistTC = (todolistTitle: string) => {
 }
 
 export const changeTodolistTitleTC = (todolistId: string, title: string) => {
-    return(dispatch: AppDispatch) => {
+    return(dispatch: AppDispatchType) => {
         todolistsAPI.updateTodolist(todolistId, title)
             .then(res => {
                 const action = changeTodolistTitleAC({todolistId: todolistId, title: title})
