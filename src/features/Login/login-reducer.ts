@@ -2,14 +2,11 @@ import {authAPI, FieldErrorType, LoginParamsType} from "../../api/todolists-api"
 import {setAppStatusAC} from "../../state/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {clearTodolistAC} from "../../state/todolists-reducer";
-import {clearTaskAC} from "../../state/tasks-reducer";
-import {AppDispatchType} from "../../state/store";
 
 export const loginTC = createAsyncThunk<
-    {isLoggedIn: boolean},                                                     // Returned
-    LoginParamsType,                                                           // ThunkArg
-    {rejectValue: {errors: string[], fieldsErrors?: Array<FieldErrorType>}}    // ThunkApiConfig
+    undefined,                                                                        // Returned
+    LoginParamsType,                                                                  // ThunkArg
+    {rejectValue: {errors: string[] | null, fieldsErrors?: Array<FieldErrorType>}}    // ThunkApiConfig
     >
 ('auth/login', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
@@ -17,19 +14,38 @@ export const loginTC = createAsyncThunk<
             const res = await (authAPI.login(param))
             if (res.data.resultCode === 0) {
                 thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-                return {isLoggedIn: true}
+                return
             } else {
                 handleServerAppError(res.data, thunkAPI.dispatch)
 
                 return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
             }
         }
-        catch(error) {
+        catch(err) {
             // const error: AxiosError = err
             // handleServerNetworkAppError(error, thunkAPI.dispatch)
-            // return thunkAPI.rejectWithValue({errors: null, fieldsErrors: undefined})
-            return {isLoggedIn: false}
+            return thunkAPI.rejectWithValue({errors: null, fieldsErrors: undefined})
+
         }
+})
+export const logOutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+    try {
+        const res = await (authAPI.logOut())
+        if (res.data.resultCode === 0) {
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            return
+        } else {
+            handleServerAppError(res.data, thunkAPI.dispatch)
+            thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
+            return thunkAPI.rejectWithValue({})
+        }
+    }
+    catch(error) {
+        handleServerNetworkAppError({message: 'error network'}, thunkAPI.dispatch)
+        thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
+        return thunkAPI.rejectWithValue({})
+    }
 })
 
 const slice = createSlice({
@@ -45,7 +61,10 @@ const slice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginTC.fulfilled, (state, action) => {
-                state.isLoggedIn = action.payload.isLoggedIn
+                state.isLoggedIn = true
+            })
+            .addCase(logOutTC.fulfilled, (state, action) => {
+                state.isLoggedIn = false
             })
     }
 })
@@ -53,33 +72,7 @@ const slice = createSlice({
 export const authReducer = slice.reducer
 export const {setIsLoggedInAC} = slice.actions
 
-// Thunk
 
-
-
-export const logOutTC = () => {
-    return (dispatch: AppDispatchType) => {
-
-        dispatch(setAppStatusAC({status: 'loading'}))
-
-        dispatch(clearTodolistAC())
-        dispatch(clearTaskAC())
-
-        authAPI.logOut()
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC({value:false}))
-                    dispatch(setAppStatusAC({status: 'succeeded'}))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-    }
-}
 
 
 

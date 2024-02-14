@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-import {TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
+import {TaskType, todolistsAPI} from "../api/todolists-api";
+import {UpdateDomainTaskModelType} from "../state/tasks-reducer";
 
 
 export default {
@@ -226,7 +227,7 @@ export const UpdateTask = () => {
     const [deadline, setDeadline] = useState<string>('')
 
     const updateTask = () => {
-        const model: UpdateTaskModelType = {
+        const model: UpdateDomainTaskModelType = {
             title: title,
             description: description,
             status: status,

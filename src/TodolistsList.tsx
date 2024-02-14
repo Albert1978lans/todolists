@@ -35,8 +35,8 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
         dispatch(fetchTodolistsTC())
     }, [])
 
-    const addTask = useCallback((todolistID: string, title: string) => {
-        dispatch(addTaskTC(todolistID, title))
+    const addTask = useCallback((todolistId: string, title: string) => {
+        dispatch(addTaskTC({todolistId, title}))
     }, [dispatch])
 
     const deleteTask = useCallback((todolistId: string, taskId: string) => {
@@ -45,8 +45,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
     }, [dispatch])
 
     const changeTaskStatus = useCallback((todolistId: string, taskId: string, newStatus: TaskStatuses) => {
-        const thunk = updateTaskTC(taskId, {status: newStatus}, todolistId)
-        dispatch(thunk)
+        dispatch(updateTaskTC({taskId: taskId, domainModel: {status: newStatus}, todolistId: todolistId}))
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
@@ -55,22 +54,21 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
     }, [dispatch])
 
     const removeTodolist = useCallback((todolistId: string) => {
-        const thunk = removeTodolistTC(todolistId)
+        const thunk = removeTodolistTC({todolistId})
         dispatch(thunk)
     }, [dispatch])
 
     const addTodolist = useCallback((todolistTitle: string) => {
-        const thunk = addTodolistTC(todolistTitle)
+        const thunk = addTodolistTC({todolistTitle})
         dispatch(thunk)
     }, [dispatch])
 
     const changeTaskTitle = useCallback((todolistId: string, taskId: string, title: string) => {
-        const action = updateTaskTC(taskId, {title: title}, todolistId)
-        dispatch(action)
+        dispatch(updateTaskTC({taskId, domainModel: {title}, todolistId}))
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((todolistId: string, title: string) => {
-        const thunk = changeTodolistTitleTC(todolistId, title)
+        const thunk = changeTodolistTitleTC({todolistId, title})
         dispatch(thunk)
     }, [dispatch])
 
