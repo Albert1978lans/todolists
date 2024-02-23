@@ -2,10 +2,10 @@ import {
     addTodolistTC,
     fetchTodolistsTC, removeTodolistTC
 } from "./todolists-reducer";
-import {TaskType, todolistsAPI} from "../api/todolists-api";
-import {AppRootStateType} from "./store";
-import {setAppStatusAC} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkAppError} from "../utils/error-utils";
+import {TaskType, todolistsAPI} from "../../api/todolists-api";
+import {AppRootStateType} from "../../app/store";
+import {setAppStatusAC} from "../Application/app-reducer";
+import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 

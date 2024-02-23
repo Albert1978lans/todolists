@@ -1,7 +1,7 @@
 
 import React from "react";
-import AppWithRedux from "./AppWithRedux";
-import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "./stories/ReduxStoreProviderDecorator";
+import AppWithRedux from "./app/AppWithRedux";
+import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "./stories/decorators/ReduxStoreProviderDecorator";
 
 export default {
     title: 'AppWithRedux Component',

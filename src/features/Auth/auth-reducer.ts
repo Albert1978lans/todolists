@@ -1,5 +1,5 @@
 import {authAPI, FieldErrorType, LoginParamsType} from "../../api/todolists-api";
-import {setAppStatusAC} from "../../state/app-reducer";
+import {setAppStatusAC} from "../Application/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -60,10 +60,10 @@ const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loginTC.fulfilled, (state, action) => {
+            .addCase(loginTC.fulfilled, (state) => {
                 state.isLoggedIn = true
             })
-            .addCase(logOutTC.fulfilled, (state, action) => {
+            .addCase(logOutTC.fulfilled, (state) => {
                 state.isLoggedIn = false
             })
     }

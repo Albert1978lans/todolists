@@ -1,12 +1,12 @@
-import './App.css';
+import '../../../app/App.css';
 import React, {useCallback, useEffect} from "react";
-import AddItemForm from './AddItemForm'
-import EditableSpane from "./EditableSpane";
-import {Task} from "./Task";
-import {FilterValuesType, TodolistDomainType} from "./state/todolists-reducer";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {useAppDispatch} from "./state/store";
-import {fetchTasks} from "./state/tasks-reducer";
+import AddItemForm from '../../../components/AddItemForm/AddItemForm'
+import EditableSpane from "../../../components/EditableSpan/EditableSpane";
+import {Task} from "./Task/Task";
+import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {useAppDispatch} from "../../../app/store";
+import {fetchTasks} from "../tasks-reducer";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 

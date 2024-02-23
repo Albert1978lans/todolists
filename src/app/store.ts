@@ -1,8 +1,8 @@
-import {tasksReducer} from './tasks-reducer';
-import {todolistsReducer} from './todolists-reducer';
+import {tasksReducer} from '../features/TodolistsList/tasks-reducer';
+import {todolistsReducer} from '../features/TodolistsList/todolists-reducer';
 import {combineReducers} from 'redux';
-import {appReducer} from "./app-reducer";
-import {authReducer} from "../features/Login/login-reducer";
+import {appReducer} from "../features/Application/app-reducer";
+import {authReducer} from "../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 // import {logger} from "../middleware/middleware";
 import {useDispatch} from "react-redux";

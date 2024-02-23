@@ -1,9 +1,9 @@
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 import {FormikHelpers, useFormik} from "formik";
-import {useAppSelector} from "../../state/hooks";
-import {loginTC} from "./login-reducer";
+import {useAppSelector} from "../TodolistsList/hooks";
+import {loginTC} from "./auth-reducer";
 import {Navigate} from "react-router-dom";
-import {useAppDispatch} from "../../state/store";
+import {useAppDispatch} from "../../app/store";
 
 type FormValuesType = {
     email: string

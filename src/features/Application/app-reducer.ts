@@ -1,6 +1,6 @@
 
-import {authAPI} from "../api/todolists-api";
-import {setIsLoggedInAC} from "../features/Login/login-reducer";
+import {authAPI} from "../../api/todolists-api";
+import {setIsLoggedInAC} from "../Auth/auth-reducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type statusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -37,7 +37,7 @@ const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(initializeAppTC.fulfilled, (state, action) => {
+            .addCase(initializeAppTC.fulfilled, (state) => {
                 state.isInitialized = true
             })
     }

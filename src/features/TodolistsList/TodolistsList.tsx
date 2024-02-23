@@ -1,20 +1,20 @@
 import {Grid, Paper} from "@mui/material";
-import AddItemForm from "./AddItemForm";
-import {Todolist} from "./Todolist";
+import AddItemForm from "../../components/AddItemForm/AddItemForm";
+import {Todolist} from "./Todolist/Todolist";
 import React, {useCallback, useEffect} from "react";
-import {useAppSelector} from "./state/hooks";
+import {useAppSelector} from "./hooks";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleTC,
     fetchTodolistsTC,
     removeTodolistTC
-} from "./state/todolists-reducer";
-import {addTaskTC, removeTask, updateTaskTC} from "./state/tasks-reducer";
-import {TaskStatuses} from "./api/todolists-api";
-import {FilterValuesType} from "./AppWithRedux";
+} from "./todolists-reducer";
+import {addTaskTC, removeTask, updateTaskTC} from "./tasks-reducer";
+import {TaskStatuses} from "../../api/todolists-api";
+import {FilterValuesType} from "../../app/AppWithRedux";
 import {Navigate} from "react-router-dom";
-import {useAppDispatch} from "./state/store";
+import {useAppDispatch} from "../../app/store";
 
 
 type PropsType = {
