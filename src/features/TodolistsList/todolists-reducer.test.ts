@@ -10,7 +10,7 @@ import {
     TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
-import {statusType} from "../Application/app-reducer";
+import {statusType} from "../Application/application-reducer";
 
 let todolistId1: string;
 let todolistId2: string;

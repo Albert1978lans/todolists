@@ -5,7 +5,7 @@ import {tasksReducer} from "../../features/TodolistsList/tasks-reducer";
 import {todolistId1, todolistId2, todolistsReducer} from "../../features/TodolistsList/todolists-reducer";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
-import {appReducer} from "../../features/Application/app-reducer";
+import {applicationReducer} from "../../features/Application/application-reducer";
 import {authReducer} from "../../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
@@ -13,7 +13,7 @@ import {HashRouter} from "react-router-dom";
 const rootReducer: RootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app: appReducer,
+    app: applicationReducer,
     auth: authReducer
 })
 

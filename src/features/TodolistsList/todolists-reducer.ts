@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
-import {setAppStatusAC, statusType} from "../Application/app-reducer";
+import {setAppStatusAC, statusType} from "../Application/application-reducer";
 import {handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -74,8 +74,14 @@ export const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistT
         }
     })
 
+export const asyncActions = {
+    fetchTodolistsTC,
+    removeTodolistTC,
+    addTodolistTC,
+    changeTodolistTitleTC
+}
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'todolists',
     initialState: [] as Array<TodolistDomainType>,
     reducers: {

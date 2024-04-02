@@ -5,10 +5,10 @@ import EditableSpane from "../../../components/EditableSpan/EditableSpane";
 import {Task} from "./Task/Task";
 import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {useAppDispatch} from "../../../app/store";
-import {fetchTasks} from "../tasks-reducer";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {useActions} from "../../../utils/redux-utils";
+import {tasksActions} from "../index";
 
 
 type TodolistPropsType = {
@@ -28,13 +28,15 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
 
         // console.log('Todolist')
 
-        const dispatch = useAppDispatch()
+        // const dispatch = useAppDispatch()
+
+        const {fetchTasks} = useActions(tasksActions)
 
         useEffect(() => {
             if (demo) {
                 return
             }
-            dispatch(fetchTasks(props.todolist.id))
+            fetchTasks(props.todolist.id)
         },[])
 
         const removeTodolist = (todolistId: string) => {

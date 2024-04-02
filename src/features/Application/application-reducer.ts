@@ -20,7 +20,11 @@ export const initializeAppTC = createAsyncThunk('app/initializeApp', async (para
     return
 })
 
-const slice = createSlice({
+export const asyncActions = {
+    initializeAppTC
+}
+
+export const slice = createSlice({
     name: 'app',
     initialState: {
         status: "idle",
@@ -43,7 +47,7 @@ const slice = createSlice({
     }
 })
 
-export const appReducer = slice.reducer
+export const applicationReducer = slice.reducer
 
 export const {setAppErrorAC, setAppStatusAC} = slice.actions
 

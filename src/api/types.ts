@@ -1,0 +1,1 @@
+export type FieldErrorType = { field: string; error: string }

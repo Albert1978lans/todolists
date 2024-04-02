@@ -4,7 +4,7 @@ import {
 } from "./todolists-reducer";
 import {TaskType, todolistsAPI} from "../../api/todolists-api";
 import {AppRootStateType} from "../../app/store";
-import {setAppStatusAC} from "../Application/app-reducer";
+import {setAppStatusAC} from "../Application/application-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
@@ -112,7 +112,14 @@ export const updateTaskTC = createAsyncThunk('tasks/updateTask', async (param: {
 
 })
 
-const slice = createSlice({
+export const asyncActions = {
+    fetchTasks,
+    removeTask,
+    addTaskTC,
+    updateTaskTC
+}
+
+export const slice = createSlice({
     name: 'tasks',
     initialState: initialeState,
     reducers: {},
