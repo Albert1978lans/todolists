@@ -21,6 +21,8 @@ type PropsType = {
     demo?: boolean
 }
 
+// изменение для экспериментального коммита
+
 export const TodolistsList = ({demo = false, ...props}: PropsType) => {
 
     // console.log('TodolistsList')
