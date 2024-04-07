@@ -12,17 +12,15 @@ import {
 } from "@mui/material";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {Menu} from "@mui/icons-material";
-import {TodolistsList} from "../features/TodolistsList/TodolistsList";
+import {TodolistsList} from "../features/TodolistsList";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/Auth/Login";
+import {Login} from "../features/Auth";
 import {useSelector} from "react-redux";
 import {selectIsInitialized, selectStatus} from "../features/Application/selectors";
 import {authActions, authSelectors} from "../features/Auth";
 import {useActions} from "../utils/redux-utils";
 import {appActions} from "../features/Application";
 
-
-export type FilterValuesType = 'all' | 'active' | 'completed'
 
 type PropsType = {
     demo?: boolean
