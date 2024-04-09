@@ -5,7 +5,7 @@ import EditableSpane from "../../../components/EditableSpan/EditableSpane";
 import {Task} from "./Task/Task";
 import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {Button, IconButton} from "@mui/material";
+import {Button, IconButton, Paper} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {useActions} from "../../../utils/redux-utils";
 import {tasksActions, todolistsActions} from "../index";
@@ -69,18 +69,21 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
 
         return (
 
-            <div className={'Todolist'}>
+            <Paper style={{padding: '10px', position: 'relative'}}>
+                <IconButton aria-label="delete"
+                            onClick={removeTodolist}
+                            disabled={props.todolist.entityStatus === 'loading'}
+                            size={'small'}
+                            style={{position: 'absolute', right: '5px', top: '5px'}}
+                >
+                    <Delete fontSize={"small"}/>
+                </IconButton>
                 <h3>
                     <EditableSpane title={props.todolist.title} changeTitle={changeTodolistTitle}/>
-                    {/*<button onClick={() => removeTodolist(props.todolist.id)} disabled={props.todolist.entityStatus === 'loading'}>X</button>*/}
-                    <IconButton aria-label="delete" onClick={removeTodolist}
-                                disabled={props.todolist.entityStatus === 'loading'}>
-                        <Delete/>
-                    </IconButton>
                 </h3>
                 <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
 
-                <ul>
+                <div>
                     {tasksForTodolists.map(t =>
                         <Task
                             key={t.id}
@@ -88,13 +91,14 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
                             task={t}
                         />
                     )}
-                </ul>
+                    {!tasksForTodolists.length && <div style={{padding: '5px', color: 'grey'}}>No tasks</div>}
+                </div>
                 <div>
                     {renderFilterButton('all', "primary")}
                     {renderFilterButton('active', "success")}
                     {renderFilterButton('completed', "secondary")}
                 </div>
-            </div>
+            </Paper>
 
         );
     }

@@ -46,17 +46,17 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
             <Grid container style={{padding: '20px'}}>
                 <AddItemForm addItem={addTodolist}/>
             </Grid>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
                 {todolists.map(tl => {
-                    return <Grid key={tl.id} item>
-                        <Paper style={{padding: '10px'}}>
+                    return <Grid item key={tl.id} >
+                        <div style={{width: '300px'}}>
                             <Todolist
                                 key={tl.id}
                                 todolist={tl}
                                 tasks={tasks[tl.id]}
                                 demo={demo}
                             />
-                        </Paper>
+                        </div>
                     </Grid>
                 })}
             </Grid>

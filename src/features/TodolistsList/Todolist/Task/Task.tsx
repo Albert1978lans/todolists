@@ -29,13 +29,13 @@ export const Task = React.memo((props:TaskPropsType) => {
     }
 
     return (
-        <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+        <div key={task.id} className={task.status === TaskStatuses.Completed ? 'is-done' : ''} style={{position: 'relative'}}>
             <Checkbox
                 checked={task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
             <EditableSpane title={task.title} changeTitle={changeTaskTitle}/>
-            <IconButton onClick={deleteTask}>
+            <IconButton onClick={deleteTask} style={{position: 'absolute', top: '2px', right: '2px'}}>
                 <Delete />
             </IconButton>
         </div>
