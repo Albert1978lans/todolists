@@ -1,6 +1,6 @@
 import {addTaskTC, fetchTasks, removeTask, tasksReducer, TasksStateType, updateTaskTC} from "../tasks-reducer";
 import {addTodolistTC, fetchTodolistsTC, removeTodolistTC, todolistId1} from "../todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../../api/types";
 import {v1} from "uuid";
 
 let startState: TasksStateType = {};
@@ -181,10 +181,10 @@ test('correct task should be added to correct array', () => {
         const action = fetchTodolistsTC.fulfilled({
             todolists: [
                 {id: '1', title: 'title 1', order: 0, addedDate: ''},
-                {id: '2', title: 'title 2', order: 0, addedDate: ''}
-            ],
+                {id: '2', title: 'title 2', order: 0, addedDate: ''}],
             },
-            'idRequest'
+            'idRequest',
+            undefined
         )
 
 

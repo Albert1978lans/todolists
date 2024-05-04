@@ -1,12 +1,11 @@
-import {authAPI, FieldErrorType, LoginParamsType} from "../../api/todolists-api";
+import {authAPI, LoginParamsType} from "../../api/todolists-api";
 import {setAppStatusAC} from "../Application/application-reducer";
-import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AxiosError} from "axios";
+import {ThunkError} from "../../utils/types";
+import {handleAsyncServerAppError, handleAsyncServerNetworkAppError} from "../../utils/error-utils";
 
-export const loginTC = createAsyncThunk<undefined,                                                                        // Returned
-    LoginParamsType,                                                                  // ThunkArg
-    { rejectValue: { errors: string[] | null, fieldsErrors?: Array<FieldErrorType> } }    // ThunkApiConfig
-    >
+export const loginTC = createAsyncThunk<undefined, LoginParamsType, ThunkError>
 ('auth/login', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
@@ -15,14 +14,11 @@ export const loginTC = createAsyncThunk<undefined,                              
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
             return
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
-    } catch (err) {
-        // const error: AxiosError = err
-        // handleServerNetworkAppError(error, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({errors: null, fieldsErrors: undefined})
-
+    } catch (error) {
+        const err = error as AxiosError
+        return handleAsyncServerNetworkAppError(err, thunkAPI)
     }
 })
 export const logOutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
@@ -33,14 +29,11 @@ export const logOutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
             return
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
-            return thunkAPI.rejectWithValue({})
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
-        handleServerNetworkAppError({message: 'error network'}, thunkAPI.dispatch)
-        thunkAPI.dispatch(setAppStatusAC({status: 'failed'}))
-        return thunkAPI.rejectWithValue({})
+        const err = error as AxiosError
+        return handleAsyncServerNetworkAppError(err, thunkAPI)
     }
 })
 

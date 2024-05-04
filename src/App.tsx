@@ -5,7 +5,7 @@ import {v1} from "uuid";
 import AddItemForm from "./components/AddItemForm/AddItemForm";
 import {TodolistDomainType} from "./features/TodolistsList/todolists-reducer";
 import {TasksStateType} from "./features/TodolistsList/tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "./api/types";
 
 
 function App() {

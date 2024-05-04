@@ -89,7 +89,7 @@ test('todolists should be set to the state', () => {
         {id: todolistId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: "idle"},
     ]
 
-    const action = fetchTodolistsTC.fulfilled({todolists: todolists}, 'idRequest')
+    const action = fetchTodolistsTC.fulfilled({todolists: todolists}, 'idRequest', undefined)
 
     const endState = todolistsReducer([], action)
 

@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-import {TaskType, todolistsAPI} from "../api/todolists-api";
+import {TaskType} from "../api/types";
 import {UpdateDomainTaskModelType} from "../features/TodolistsList/tasks-reducer";
+import {todolistsAPI} from "../api/todolists-api";
 
 
 export default {

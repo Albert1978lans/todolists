@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import EditableSpane from "../../../../components/EditableSpan/EditableSpane";
-import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
+import {TaskStatuses, TaskType} from "../../../../api/types";
 import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {useActions} from "../../../../utils/redux-utils";

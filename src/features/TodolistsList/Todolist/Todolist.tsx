@@ -4,7 +4,7 @@ import AddItemForm from '../../../components/AddItemForm/AddItemForm'
 import EditableSpane from "../../../components/EditableSpan/EditableSpane";
 import {Task} from "./Task/Task";
 import {FilterValuesType, TodolistDomainType} from "../todolists-reducer";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskStatuses, TaskType} from "../../../api/types";
 import {Button, IconButton, Paper} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {useActions} from "../../../utils/redux-utils";

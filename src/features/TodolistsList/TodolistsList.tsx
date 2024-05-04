@@ -1,4 +1,4 @@
-import {Grid, Paper} from "@mui/material";
+import {Grid} from "@mui/material";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import React, {useCallback, useEffect} from "react";
@@ -34,6 +34,7 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
 
     const addTodolist = useCallback(async (todolistTitle: string) => {
         const resActions = await addTodolistTC({todolistTitle})
+        console.log(todolistsActions.addTodolistTC.rejected)
         if (todolistsActions.addTodolistTC.rejected.match(resActions)) {
             if (resActions.payload?.errors) {
                 const error = resActions.payload.errors[0]
