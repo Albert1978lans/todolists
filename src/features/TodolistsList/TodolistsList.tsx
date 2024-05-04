@@ -20,8 +20,6 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
 
     console.log('TodolistsList')
 
-    // const dispatch = useAppDispatch()
-
     const todolists = useSelector(selectTodolists)
     const tasks = useSelector(selectTasks)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
@@ -34,8 +32,16 @@ export const TodolistsList = ({demo = false, ...props}: PropsType) => {
         fetchTodolistsTC()
     }, [])
 
-    const addTodolist = useCallback((todolistTitle: string) => {
-        addTodolistTC({todolistTitle})
+    const addTodolist = useCallback(async (todolistTitle: string) => {
+        const resActions = await addTodolistTC({todolistTitle})
+        if (todolistsActions.addTodolistTC.rejected.match(resActions)) {
+            if (resActions.payload?.errors) {
+                const error = resActions.payload.errors[0]
+                throw new Error(error)
+            } else {
+                throw new Error('some error')
+            }
+        }
     }, [])
     if (!isLoggedIn) {
         return <Navigate replace to={'/login'}/>

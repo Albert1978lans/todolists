@@ -4,7 +4,7 @@ import {AddCircle} from "@mui/icons-material";
 
 
 type AddItemFormPropsType = {
-    addItem: (titleValue: string) => void
+    addItem: (titleValue: string) => Promise<any>
     disabled?: boolean
 }
 
@@ -15,10 +15,16 @@ const AddItemForm = React.memo(({addItem, disabled = false}: AddItemFormPropsTyp
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
-    const addTitle = (titleValue: string) => {
+    const addTitle = async (titleValue: string) => {
         if (titleValue.trim() !== '') {
-            addItem(titleValue.trim())
-            setTitle('')
+            setError('')
+            try {
+                await addItem(titleValue.trim())
+                setTitle('')
+
+            } catch (error: any) {
+                setError(error.message)
+            }
         } else {
             setError('This requared')
         }

@@ -30,7 +30,7 @@ function App() {
         ]
     })
 
-    const addTodolist = (todolistTitle: string) => {
+    const addTodolist = async (todolistTitle: string) => {
         const newTodolist: TodolistDomainType = {
             id: v1(),
             title: todolistTitle,

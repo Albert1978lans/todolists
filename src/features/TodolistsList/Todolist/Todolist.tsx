@@ -21,11 +21,7 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
 
         console.log('Todolist')
         const {removeTodolistTC, changeTodolistTitleTC, changeTodolistFilterAC} = useActions(todolistsActions)
-        const {addTaskTC} = useActions(tasksActions)
-
-        // const dispatch = useAppDispatch()
-
-        const {fetchTasks} = useActions(tasksActions)
+        const {fetchTasks, addTaskTC} = useActions(tasksActions)
 
         useEffect(() => {
             if (demo) {
@@ -38,9 +34,18 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
             removeTodolistTC({todolistId: props.todolist.id})
         }
 
-        const addTask = useCallback((titleTask: string) => {
-            addTaskTC({todolistId: props.todolist.id, title: titleTask})
-        }, [props.todolist.id])
+        const addTask = useCallback(async (titleTask: string) => {
+            const resultAction = await addTaskTC({todolistId: props.todolist.id, title: titleTask})
+            if (tasksActions.addTaskTC.rejected.match(resultAction)) {
+                if (resultAction.payload?.errors?.length) {
+                    const errorMessage = resultAction.payload?.errors[0]
+                    throw new Error(errorMessage)
+                } else {
+                    throw new Error('Some error')
+                }
+
+            }
+        }, [])
 
         const changeTodolistTitle = useCallback((title: string) => {
             changeTodolistTitleTC({todolistId: props.todolist.id, title})

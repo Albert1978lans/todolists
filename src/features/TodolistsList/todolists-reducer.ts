@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {setAppStatusAC, statusType} from "../Application/application-reducer";
-import {handleServerNetworkAppError} from "../../utils/error-utils";
+import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
@@ -45,19 +45,28 @@ export const removeTodolistTC = createAsyncThunk('todolists/removeTodolistTC',
 
 
     })
-
-export const addTodolistTC = createAsyncThunk('todolists/addTodolistTC',
-    async (param:{todolistTitle: string}, {dispatch,rejectWithValue}) => {
-        dispatch(setAppStatusAC({status: 'loading'}))
+export const addTodolistTC = createAsyncThunk<
+    {todolist: TodolistType},
+    {todolistTitle: string},
+    {rejectValue: {errors: string[] | null}}
+    >('todolists/addTodolistTC',
+    async (param, thunkAPI) => {
+        thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
         const res = await todolistsAPI.createTodolist(param.todolistTitle)
-            try {
-                dispatch(setAppStatusAC({status: 'succeeded'}))
+        try {
+            if (res.data.resultCode === 0) {
+                thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
                 return {todolist: res.data.data.item}
+            } else {
+                handleServerAppError(res.data, thunkAPI.dispatch, false)
+                return thunkAPI.rejectWithValue({errors: res.data.messages})
             }
-            catch (error) {
-                handleServerNetworkAppError(error, dispatch)
-                return rejectWithValue(null)
-            }
+
+        }
+        catch (error) {
+            handleServerNetworkAppError(error, thunkAPI.dispatch)
+            return thunkAPI.rejectWithValue({errors: null})
+        }
     })
 
 export const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistTitle',

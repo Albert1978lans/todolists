@@ -2,7 +2,7 @@ import {
     addTodolistTC,
     fetchTodolistsTC, removeTodolistTC
 } from "./todolists-reducer";
-import {TaskType, todolistsAPI} from "../../api/todolists-api";
+import {FieldErrorType, TaskType, todolistsAPI} from "../../api/todolists-api";
 import {AppRootStateType} from "../../app/store";
 import {setAppStatusAC} from "../Application/application-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utils/error-utils";
@@ -53,7 +53,11 @@ export const removeTask = createAsyncThunk('tasks/removeTask', async (param: { t
 
 })
 
-export const addTaskTC = createAsyncThunk('tasks/addTask', async (param: {todolistId: string, title: string}, thunkAPI) => {
+export const addTaskTC = createAsyncThunk<
+    {task: TaskType},
+    {todolistId: string, title: string},
+    { rejectValue: {errors: string[] | null } }
+    >('tasks/addTask', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await (todolistsAPI.createTask(param.todolistId, param.title))
@@ -62,14 +66,16 @@ export const addTaskTC = createAsyncThunk('tasks/addTask', async (param: {todoli
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
             return {task: res.data.data.item}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({})
+            handleServerAppError(res.data, thunkAPI.dispatch, false)
+            // return thunkAPI.rejectWithValue({})
+            return thunkAPI.rejectWithValue({errors: res.data.messages})
         }
 
     }
     catch (error) {
         handleServerNetworkAppError(error, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({})
+        // return thunkAPI.rejectWithValue({})
+        return thunkAPI.rejectWithValue({errors: null})
     }
 })
 
