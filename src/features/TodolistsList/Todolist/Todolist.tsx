@@ -47,8 +47,16 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
             }
         }, [])
 
-        const changeTodolistTitle = useCallback((title: string) => {
-            changeTodolistTitleTC({todolistId: props.todolist.id, title})
+        const changeTodolistTitle = useCallback(async (title: string) => {
+            const resultAction = await changeTodolistTitleTC({todolistId: props.todolist.id, title})
+
+            if (todolistsActions.changeTodolistTitleTC.rejected.match(resultAction)) {
+                if (resultAction.payload?.errors) {
+                    const error = resultAction.payload.errors[0]
+                    throw new Error(error)
+                }
+            }
+
         }, [props.todolist.id])
 
         const onButtonClickHandler = useCallback((filter: FilterValuesType) => changeTodolistFilterAC({

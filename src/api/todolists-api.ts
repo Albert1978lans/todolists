@@ -5,7 +5,7 @@ import {ResponseTaskType, TodolistType, ResponseType, TaskType} from "./types";
 const settings = {
     withCredentials: true,
     headers: {
-        'api-key': 'fb06af8a-0542-41c9-aba3-9af2aab7afee'
+        'api-key': '6952ad27-0af4-4ffd-97b9-d4dd2e68bb7a'
     }
 }
 const instance = axios.create({

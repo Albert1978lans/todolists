@@ -26,7 +26,6 @@ export const fetchTodolistsTC = createAsyncThunk<{todolists: Array<TodolistType>
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await (todolistsAPI.getTodolist())
-
         thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
         return {todolists: res.data}
 
@@ -75,13 +74,22 @@ export const addTodolistTC = createAsyncThunk<
         }
     })
 
-export const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistTitle',
-    async (param:{todolistId: string, title: string}, thunkAPI) => {
+export const changeTodolistTitleTC = createAsyncThunk<
+    {todolistId: string, title: string},
+    {todolistId: string, title: string},
+    ThunkError
+    >('todolists/changeTodolistTitle',
+    async (param, thunkAPI) => {
         thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
         try {
             const res = await todolistsAPI.updateTodolist(param.todolistId, param.title)
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-            return {todolistId: param.todolistId, title: param.title}
+
+            if (res.data.resultCode === 0) {
+                thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+                return {todolistId: param.todolistId, title: param.title}
+            } else {
+                return handleAsyncServerAppError(res.data, thunkAPI, false)
+            }
         }
         catch (error) {
             const err = error as AxiosError

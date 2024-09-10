@@ -24,7 +24,7 @@ export const Task = React.memo((props:TaskPropsType) => {
             ? updateTaskTC({taskId: task.id, domainModel:{status: TaskStatuses.Completed}, todolistId: todolistId})
             : updateTaskTC({taskId: task.id, domainModel:{status: TaskStatuses.New}, todolistId: todolistId})
     }
-    const changeTaskTitle = (title: string) => {
+    const changeTaskTitle = async (title: string) => {
         updateTaskTC({taskId: task.id, domainModel:{title}, todolistId: todolistId})
     }
 

@@ -9,8 +9,12 @@ export default {
 }
 
 
-const changeCallback = action('Value changed')
+// const changeCallback = action('Value changed')
+
+const asyncChangeCallback = async (...param: any) => {
+    action('Value changed')(...param)
+}
 
 export const EditableSpanBaseExample = (props: any) => {
-    return <EditableSpane title={'Start value'} changeTitle={changeCallback}/>
+    return <EditableSpane title={'Start value'} changeTitle={asyncChangeCallback}/>
 }
